@@ -7,8 +7,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EmployeeCubit extends Cubit<EmployeeState> {
   EmployeeCubit() : super(EmployeeInitial());
 
-  void getEmployee() async {
-    emit(EmployeeLoading());
+  static EmployeeCubit get(context) => BlocProvider.of<EmployeeCubit>(context);
+
+  int page = 1, limit = 10;
+
+  List<EmployeeModel> employees = [];
+
+  void getEmployee({bool more = false}) async {
+    if (more == false) {
+      emit(EmployeeLoading());
+    } else {
+      emit(EmployeeLoadMoreLoading());
+    }
     try {
       bool networkStatus = await Network.check();
       if (!networkStatus) {
@@ -16,7 +26,15 @@ class EmployeeCubit extends Cubit<EmployeeState> {
         return;
       }
 
-      List<EmployeeModel> response = await EmployeeController.getEmployee();
+      List<EmployeeModel> response =
+          await EmployeeController.getEmployee(page, limit);
+
+      if (more == true) {
+        page++;
+        emit(EmployeeLoadMoreSuccess(response));
+        return;
+      }
+
       emit(EmployeeSuccess(response));
     } catch (e) {
       emit(EmployeeError(e.toString()));

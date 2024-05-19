@@ -2,6 +2,7 @@ import 'package:bec_app/global/constant/app_colors.dart';
 import 'package:bec_app/global/constant/app_urls.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class UserDetailsScreen extends StatefulWidget {
@@ -36,7 +37,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
@@ -57,7 +57,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   ),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Hero(
@@ -90,13 +89,17 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         ),
                       ),
                     ),
-                    10.height,
-                    Text(
-                      widget.employees.name!,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    20.height,
+                    SizedBox(
+                      width: context.width() * 0.8,
+                      child: Text(
+                        widget.employees.name!,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],

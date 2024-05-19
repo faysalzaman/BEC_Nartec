@@ -18,12 +18,27 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
-  EmployeeCubit employeeCubit = EmployeeCubit();
+  final EmployeeCubit employeeCubit = EmployeeCubit();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     employeeCubit.getEmployee();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      employeeCubit.getEmployee(more: true);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -32,7 +47,13 @@ class _UsersScreenState extends State<UsersScreen> {
       backgroundColor: AppColors.background,
       body: BlocConsumer<EmployeeCubit, EmployeeState>(
         bloc: employeeCubit,
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is EmployeeSuccess) {
+            employeeCubit.employees = state.employees;
+          } else if (state is EmployeeLoadMoreSuccess) {
+            employeeCubit.employees.addAll(state.employees);
+          }
+        },
         builder: (context, state) {
           if (state is EmployeeLoading) {
             return const ShimmerWidgetForEmployeesList();
@@ -68,122 +89,132 @@ class _UsersScreenState extends State<UsersScreen> {
             );
           }
 
-          return state is EmployeeSuccess
-              ? SafeArea(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            //back button
-                            IconButton(
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
+          return SafeArea(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      //back button
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
 
-                            Column(
-                              children: [
-                                const Text(
-                                  'Employees',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  'Total Employees: ${state.employees.length}',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
+                      Column(
+                        children: [
+                          const Text(
+                            'Employees',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Total Employees: ${employeeCubit.employees.length}',
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  20.height,
+                  ListView.builder(
+                    itemCount: employeeCubit.employees.length,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: context.width() * 0.9,
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0, 3),
                             ),
                           ],
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.2)),
                         ),
-                        20.height,
-                        ListView.builder(
-                          itemCount: state.employees.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: context.width() * 0.9,
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10,
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(10),
+                          title: Text(
+                            employeeCubit.employees[index].name ?? "",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            "Employee Code ${employeeCubit.employees[index].employeeCode!}",
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                          leading: Hero(
+                            tag: employeeCubit.employees[index].id!,
+                            child: ClipOval(
+                              child: Image.network(
+                                employeeCubit.employees[index].profilePicture ==
+                                        null
+                                    ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
+                                    : "${AppUrls.baseUrl}${employeeCubit.employees[index].profilePicture?.replaceAll("\\", "/")}",
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.2)),
-                              ),
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.all(10),
-                                title: Text(
-                                  state.employees[index].name ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  "Employee Code ${state.employees[index].employeeCode!}",
-                                  style: const TextStyle(fontSize: 15),
-                                ),
-                                leading: Hero(
-                                  tag: state.employees[index].id!,
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      state.employees[index].profilePicture ==
-                                              null
-                                          ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
-                                          : "${AppUrls.baseUrl}${state.employees[index].profilePicture?.replaceAll("\\", "/")}",
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                trailing: GestureDetector(
-                                  onTap: () {
-                                    // move to User Details Page
-                                    AppNavigator.goToPage(
-                                      context: context,
-                                      screen: UserDetailsScreen(
-                                          employees: state.employees[index]),
-                                    );
-                                  },
-                                  child: Image.asset("assets/images/view.png"),
-                                ),
-                                onTap: () {
-                                  // AppNavigator.goToPage(
-                                  //   context: context,
-                                  //   screen: const UsersScreen(id: "1"),
-                                  // );
-                                },
-                              ),
-                            );
+                            ),
+                          ),
+                          trailing: GestureDetector(
+                            onTap: () {
+                              // move to User Details Page
+                              AppNavigator.goToPage(
+                                context: context,
+                                screen: UserDetailsScreen(
+                                    employees: employeeCubit.employees[index]),
+                              );
+                            },
+                            child: Image.asset("assets/images/view.png"),
+                          ),
+                          onTap: () {
+                            // AppNavigator.goToPage(
+                            //   context: context,
+                            //   screen: const UsersScreen(id: "1"),
+                            // );
                           },
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                )
-              : Container();
+                  20.height,
+                  if (state is EmployeeLoadMoreLoading) ...[
+                    const CircularProgressIndicator(color: AppColors.primary),
+                    10.height,
+                  ],
+                  // if (state is! EmployeeLoadMoreLoading)
+                  //   ElevatedButton(
+                  //       onPressed: () {
+                  //         employeeCubit.getEmployee(more: true);
+                  //       },
+                  //       child: const Text("Load more")),
+                ],
+              ),
+            ),
+          );
         },
       ),
     );
