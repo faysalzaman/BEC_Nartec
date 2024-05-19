@@ -115,8 +115,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 child: const Divider(),
               ),
               KeyValueInfoWidget(
-                keyy: 'Email',
-                value: widget.employees.email ?? "",
+                keyy: 'User Name',
+                value: widget.employees.username ?? "",
               ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -192,21 +192,25 @@ class KeyValueInfoWidget extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            flex: 1,
+            flex: 3,
             child: Text(
               keyy,
               style: const TextStyle(
-                fontSize: 15,
+                fontSize: 13,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
+          const Expanded(
+            flex: 1,
+            child: Text(':'),
+          ),
           Expanded(
-            flex: 2,
+            flex: 6,
             child: Text(
               value,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 13,
               ),
             ),
           ),

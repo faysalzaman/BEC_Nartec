@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:bec_app/global/constant/app_preferences.dart';
 import 'package:bec_app/global/constant/app_urls.dart';
@@ -20,6 +22,8 @@ class AttendanceController {
     final body = jsonEncode({"employeeId": id, "checkIn": date});
 
     final response = await http.post(url, headers: headers, body: body);
+
+    print(response.body);
 
     if (response.statusCode == 200) {
       return;

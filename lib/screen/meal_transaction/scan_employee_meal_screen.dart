@@ -31,6 +31,13 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: true,
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: AppColors.white,
+      ),
       body: BlocConsumer<EmployeeCubit, EmployeeState>(
         bloc: employeeCubit,
         listener: (context, state) {

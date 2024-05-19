@@ -3,7 +3,7 @@
 class EmployeeModel {
   int? id;
   String? name;
-  String? email;
+  String? username;
   String? password;
   String? location;
   String? employeeCode;
@@ -18,7 +18,7 @@ class EmployeeModel {
   EmployeeModel({
     this.id,
     this.name,
-    this.email,
+    this.username,
     this.password,
     this.location,
     this.employeeCode,
@@ -34,7 +34,7 @@ class EmployeeModel {
   EmployeeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    email = json['email'];
+    username = json['username'];
     password = json['password'];
     location = json['location'];
     employeeCode = json['employeeCode'];
@@ -51,7 +51,7 @@ class EmployeeModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
-    data['email'] = email;
+    data['username'] = username;
     data['password'] = password;
     data['location'] = location;
     data['employeeCode'] = employeeCode;

@@ -6,6 +6,7 @@ import 'package:bec_app/widgets/attendance_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TimeAndAttendanceScreen extends StatefulWidget {
   const TimeAndAttendanceScreen({super.key, required this.employee});
@@ -85,10 +86,13 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                             listener: (context, state) {
                               if (state is AttendanceInSuccess) {
                                 toast("Check In Successful");
+                                attendanceCubit.getAttendance(
+                                    widget.employee.id.toString());
                               }
 
                               if (state is AttendanceInError) {
-                                toast(state.error.replaceAll("Exception:", ""));
+                                attendanceCubit.getAttendance(
+                                    widget.employee.id.toString());
                               }
                             },
                             builder: (context, state) {
@@ -126,10 +130,6 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                                               attendanceInCubit.attendanceIn(
                                                   widget.employee.id
                                                       .toString());
-
-                                              attendanceCubit.getAttendance(
-                                                  widget.employee.id
-                                                      .toString());
                                             },
                                       child: state is AttendanceInLoading
                                           ? const Center(
@@ -154,10 +154,13 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                             listener: (context, state) {
                               if (state is AttendanceOutSuccess) {
                                 toast("Check Out Successful");
+                                attendanceCubit.getAttendance(
+                                    widget.employee.id.toString());
                               }
 
                               if (state is AttendanceOutError) {
-                                toast(state.error.replaceAll("Exception:", ""));
+                                attendanceCubit.getAttendance(
+                                    widget.employee.id.toString());
                               }
                             },
                             builder: (context, state) {
@@ -193,10 +196,6 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                                           ? null
                                           : () {
                                               attendanceOutCubit.attendanceOut(
-                                                  widget.employee.id
-                                                      .toString());
-
-                                              attendanceCubit.getAttendance(
                                                   widget.employee.id
                                                       .toString());
                                             },
@@ -240,19 +239,69 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                       listener: (context, state) {},
                       builder: (context, state) {
                         if (state is AttendanceLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primary,
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Card(
+                              margin: const EdgeInsets.all(10.0),
+                              elevation: 5.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: double.infinity,
+                                      height: 40.0,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(height: 10.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 100.0,
+                                          height: 16.0,
+                                          color: Colors.white,
+                                        ),
+                                        Container(
+                                          width: 150.0,
+                                          height: 16.0,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 100.0,
+                                          height: 16.0,
+                                          color: Colors.white,
+                                        ),
+                                        Container(
+                                          width: 150.0,
+                                          height: 16.0,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           );
                         }
                         if (state is AttendanceError) {
-                          return Center(
+                          return const Center(
                             child: Text(
-                              state.error.replaceAll("Exception:", ""),
-                              style: const TextStyle(
+                              "No Attendance Record",
+                              style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 20,
+                                fontSize: 15,
                               ),
                             ),
                           );
@@ -265,7 +314,7 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                               "No Attendance Record",
                               style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 20,
+                                fontSize: 15,
                               ),
                             ),
                           );
