@@ -54,68 +54,78 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
         },
         builder: (context, state) {
           return SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Image.asset('assets/logos/bec_logo.jpeg'),
-                ),
-                const Text(
-                  "Scan the Employee's QR Code",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Image.asset('assets/logos/bec_logo.jpeg'),
                   ),
-                ),
-                20.height,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: TextField(
-                    controller: qrTextController,
-                    focusNode: qrTextFocus,
-                    onSubmitted: (value) {
-                      qrTextFocus.unfocus();
-                      employeeCubit
-                          .getEmployeeById(qrTextController.text.trim());
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      hintText: 'Scan the QR Code',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
+                  const Text(
+                    "Scan the Employee's QR Code",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  20.height,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      controller: qrTextController,
+                      focusNode: qrTextFocus,
+                      onSubmitted: (value) {
+                        if (qrTextController.text.isEmpty) {
+                          qrTextFocus.unfocus();
+                          return;
+                        }
+                        qrTextFocus.unfocus();
+                        employeeCubit
+                            .getEmployeeById(qrTextController.text.trim());
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        hintText: 'Scan the QR Code',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                40.height,
-                SizedBox(
-                  width: context.width() * 0.6,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
+                  40.height,
+                  SizedBox(
+                    width: context.width() * 0.6,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {
+                        if (qrTextController.text.isEmpty) {
+                          qrTextFocus.unfocus();
+                          return;
+                        }
+                        qrTextFocus.unfocus();
+                        employeeCubit
+                            .getEmployeeById(qrTextController.text.trim());
+                      },
+                      child: state is EmployeeLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.white))
+                          : const Text(
+                              'Search',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
                     ),
-                    onPressed: () {
-                      qrTextFocus.unfocus();
-                      employeeCubit
-                          .getEmployeeById(qrTextController.text.trim());
-                    },
-                    child: state is EmployeeLoading
-                        ? const Center(
-                            child:
-                                CircularProgressIndicator(color: Colors.white))
-                        : const Text(
-                            'Search',
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                          ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

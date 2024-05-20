@@ -42,7 +42,6 @@ class _UserProfileAttendanceScreenState
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
@@ -63,7 +62,6 @@ class _UserProfileAttendanceScreenState
                   ),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Hero(
@@ -96,13 +94,17 @@ class _UserProfileAttendanceScreenState
                         ),
                       ),
                     ),
-                    10.height,
-                    Text(
-                      widget.employees.name ?? '',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    20.height,
+                    SizedBox(
+                      width: context.width() * 0.8,
+                      child: Text(
+                        widget.employees.name ?? "",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],

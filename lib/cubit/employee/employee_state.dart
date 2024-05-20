@@ -8,6 +8,8 @@ class EmployeeLoading extends EmployeeState {}
 
 class EmployeeLoadMoreLoading extends EmployeeState {}
 
+class EmployeeSearchLoading extends EmployeeState {}
+
 class EmployeeSuccess extends EmployeeState {
   final List<EmployeeModel> employees;
 
@@ -20,6 +22,12 @@ class EmployeeLoadMoreSuccess extends EmployeeState {
   EmployeeLoadMoreSuccess(this.employees);
 }
 
+class EmployeeSearchSuccess extends EmployeeState {
+  final List<EmployeeModel> employees;
+
+  EmployeeSearchSuccess(this.employees);
+}
+
 class EmployeeError extends EmployeeState {
   final String message;
 
@@ -30,6 +38,12 @@ class EmployeeLoadMoreError extends EmployeeState {
   final String message;
 
   EmployeeLoadMoreError(this.message);
+}
+
+class EmployeeSearchError extends EmployeeState {
+  final String message;
+
+  EmployeeSearchError(this.message);
 }
 
 class EmployeeByIdSuccess extends EmployeeState {

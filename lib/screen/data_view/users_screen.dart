@@ -2,6 +2,7 @@ import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
 import 'package:bec_app/global/constant/app_colors.dart';
 import 'package:bec_app/global/constant/app_urls.dart';
+import 'package:bec_app/screen/data_view/search_user_screen.dart';
 import 'package:bec_app/screen/data_view/user_details.screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -41,17 +42,51 @@ class _UsersScreenState extends State<UsersScreen> {
     super.dispose();
   }
 
+  int totalEmp = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: true,
+        centerTitle: true,
+        title: Text(
+          "Total Employees: ${totalEmp.toString()}",
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // search button at the last
+        actions: [
+          IconButton(
+            onPressed: () {
+              AppNavigator.goToPage(
+                context: context,
+                screen: const SearchUsersScreen(),
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
+      ),
       body: BlocConsumer<EmployeeCubit, EmployeeState>(
         bloc: employeeCubit,
         listener: (context, state) {
           if (state is EmployeeSuccess) {
             employeeCubit.employees = state.employees;
+            setState(() {
+              totalEmp = state.employees.length;
+            });
           } else if (state is EmployeeLoadMoreSuccess) {
             employeeCubit.employees.addAll(state.employees);
+            setState(() {
+              totalEmp = employeeCubit.employees.length;
+            });
           }
         },
         builder: (context, state) {
@@ -95,37 +130,6 @@ class _UsersScreenState extends State<UsersScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      //back button
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-
-                      Column(
-                        children: [
-                          const Text(
-                            'Employees',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Total Employees: ${employeeCubit.employees.length}',
-                            style: const TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  20.height,
                   ListView.builder(
                     itemCount: employeeCubit.employees.length,
                     shrinkWrap: true,
@@ -172,7 +176,8 @@ class _UsersScreenState extends State<UsersScreen> {
                                 employeeCubit.employees[index].profilePicture ==
                                         null
                                     ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
-                                    : "${AppUrls.baseUrl}${employeeCubit.employees[index].profilePicture?.replaceAll("\\", "/")}",
+                                    // replace all the \\ with / in the profile picture url and put the one / after the base url
+                                    : "${AppUrls.baseUrl}/${employeeCubit.employees[index].profilePicture?.replaceAll("\\", "/").replaceAll("//", "/")}",
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.cover,
