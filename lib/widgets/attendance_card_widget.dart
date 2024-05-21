@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+// ignore_for_file: unnecessary_null_comparison
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
 import 'package:bec_app/screen/time_and_attendance/attendance_history.dart';
 import 'package:bec_app/utils/app_navigator.dart';
@@ -19,7 +18,6 @@ class AttendanceCard extends StatelessWidget {
     // Convert dateTime to Human readable format
     return DateFormat('dd MMM yyyy hh:mm a').format(DateTime.parse(dateTime));
   }
-
 
   DateTime parseDateTime(String dateTime) {
     // Convert dateTime to DateTime object
@@ -42,7 +40,8 @@ class AttendanceCard extends StatelessWidget {
     return DateFormat('yyyy-MM-dd').format(date);
   }
 
-  Map<String, Duration> calculateTotalTimePerDay(List<AttendanceModel> attendance) {
+  Map<String, Duration> calculateTotalTimePerDay(
+      List<AttendanceModel> attendance) {
     Map<String, Duration> totalTimePerDay = {};
 
     for (var record in attendance) {
@@ -52,17 +51,15 @@ class AttendanceCard extends StatelessWidget {
         totalTimePerDay[date] = Duration.zero;
       }
 
-      totalTimePerDay[date] = (totalTimePerDay[date] ?? Duration.zero) + calculateTimeSpent(record.checkIn ?? "0", record.checkOut ?? "0");
+      totalTimePerDay[date] = (totalTimePerDay[date] ?? Duration.zero) +
+          calculateTimeSpent(record.checkIn ?? "0", record.checkOut ?? "0");
     }
 
     return totalTimePerDay;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         ElevatedButton(
@@ -85,7 +82,6 @@ class AttendanceCard extends StatelessWidget {
             return const Divider();
           },
           itemBuilder: (context, index) {
-
             return Column(
               children: [
                 Card(
