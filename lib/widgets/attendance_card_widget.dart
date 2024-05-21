@@ -1,4 +1,5 @@
 // ignore_for_file: unnecessary_null_comparison
+
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
 import 'package:bec_app/screen/time_and_attendance/attendance_history.dart';
 import 'package:bec_app/utils/app_navigator.dart';
@@ -15,13 +16,14 @@ class AttendanceCard extends StatelessWidget {
   });
 
   String formatDateTime(String dateTime) {
-    // Convert dateTime to Human readable format
-    return DateFormat('dd MMM yyyy hh:mm a').format(DateTime.parse(dateTime));
+    // Convert dateTime to Human readable format in local time zone
+    return DateFormat('dd MMM yyyy hh:mm a')
+        .format(parseDateTime(dateTime).toLocal());
   }
 
   DateTime parseDateTime(String dateTime) {
-    // Convert dateTime to DateTime object
-    return DateTime.parse(dateTime);
+    // Convert dateTime to DateTime object as UTC and then convert to local
+    return DateTime.parse(dateTime).toUtc();
   }
 
   Duration calculateTimeSpent(String checkIn, String checkOut) {
@@ -36,7 +38,7 @@ class AttendanceCard extends StatelessWidget {
   }
 
   String getDateString(String dateTime) {
-    DateTime date = DateTime.parse(dateTime);
+    DateTime date = parseDateTime(dateTime).toLocal();
     return DateFormat('yyyy-MM-dd').format(date);
   }
 
