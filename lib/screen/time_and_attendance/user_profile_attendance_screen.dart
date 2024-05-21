@@ -4,6 +4,7 @@ import 'package:bec_app/global/constant/app_urls.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
 import 'package:bec_app/screen/time_and_attendance/time_attendance_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -85,7 +86,8 @@ class _UserProfileAttendanceScreenState
                           ],
                         ),
                         child: ClipOval(
-                          child: Image.network(
+                          child: CachedNetworkImage(
+                            imageUrl:
                             widget.employees.profilePicture == null
                                 ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
                                 : "${AppUrls.baseUrl}${widget.employees.profilePicture?.replaceAll("\\", "/")}",

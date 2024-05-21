@@ -1,5 +1,5 @@
 import 'package:bec_app/global/constant/app_colors.dart';
-import 'package:bec_app/screen/login/login_screen.dart';
+import 'package:bec_app/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -60,8 +60,19 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset('assets/logos/bec_logo.jpeg'),
+                    child: Image.asset('assets/logos/bec_logo.jpeg',
+                    width: context.width() * 0.3,
+
+                    ),
                   ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Image.asset('assets/images/qr_code.png',
+                    width: context.width() * 0.2,
+                    height: context.height() * 0.1,
+                    ),
+                  ),
+                  20.height,
                   const Text(
                     "Scan the Employee's QR Code",
                     style: TextStyle(

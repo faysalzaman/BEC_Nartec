@@ -164,10 +164,8 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                                 leading: Hero(
                                   tag: employeeCubit.filteredList[index].id!,
                                   child: ClipOval(
-                                    child: Image.network(
-                                      employeeCubit.filteredList[index]
-                                                  .profilePicture ==
-                                              null
+                                    child: CachedNetworkImage(
+                                      imageUrl: employeeCubit.filteredList[index].profilePicture == null
                                           ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
                                           // replace all the \\ with / in the profile picture url and put the one / after the base url
                                           : "${AppUrls.baseUrl}/${employeeCubit.filteredList[index].profilePicture?.replaceAll("\\", "/").replaceAll("//", "/")}",
