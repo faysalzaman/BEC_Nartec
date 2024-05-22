@@ -1,6 +1,6 @@
 import 'package:bec_app/cubit/login/login_cubit.dart';
 import 'package:bec_app/cubit/login/login_states.dart';
-import 'package:bec_app/global/constant/app_colors.dart';
+import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/home_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';

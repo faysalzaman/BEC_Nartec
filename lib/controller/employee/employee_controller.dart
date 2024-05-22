@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:bec_app/global/constant/app_preferences.dart';
+import 'package:bec_app/constant/app_preferences.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
-import 'package:bec_app/global/constant/app_urls.dart';
+import 'package:bec_app/constant/app_urls.dart';
 import 'package:http/http.dart' as http;
 
 class EmployeeController {

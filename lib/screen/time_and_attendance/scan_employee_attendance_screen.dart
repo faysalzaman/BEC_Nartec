@@ -1,7 +1,7 @@
 import 'package:bec_app/screen/time_and_attendance/user_profile_attendance_screen.dart';
 import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
-import 'package:bec_app/global/constant/app_colors.dart';
+import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,14 +62,15 @@ class _ScanEmployeeAttendanceScreenState
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset('assets/logos/bec_logo.jpeg',
+                    child: Image.asset(
+                      'assets/logos/bec_logo.jpeg',
                       width: context.width() * 0.3,
-
                     ),
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset('assets/images/qr_code.png',
+                    child: Image.asset(
+                      'assets/images/qr_code.png',
                       width: context.width() * 0.2,
                       height: context.height() * 0.1,
                     ),

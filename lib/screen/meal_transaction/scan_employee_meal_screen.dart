@@ -1,6 +1,6 @@
 import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
-import 'package:bec_app/global/constant/app_colors.dart';
+import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/meal_transaction/user_profile_meal_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';
@@ -60,16 +60,17 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                 children: [
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset('assets/logos/bec_logo.jpeg',
-                    width: context.width() * 0.3,
-
+                    child: Image.asset(
+                      'assets/logos/bec_logo.jpeg',
+                      width: context.width() * 0.3,
                     ),
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset('assets/images/qr_code.png',
-                    width: context.width() * 0.2,
-                    height: context.height() * 0.1,
+                    child: Image.asset(
+                      'assets/images/qr_code.png',
+                      width: context.width() * 0.2,
+                      height: context.height() * 0.1,
                     ),
                   ),
                   20.height,

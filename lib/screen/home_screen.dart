@@ -1,4 +1,4 @@
-import 'package:bec_app/global/constant/app_colors.dart';
+import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/data_view/users_screen.dart';
 import 'package:bec_app/screen/meal_transaction/scan_employee_meal_screen.dart';
 import 'package:bec_app/screen/time_and_attendance/scan_employee_attendance_screen.dart';

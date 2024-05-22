@@ -1,7 +1,7 @@
 // ignore_for_file: non_const_call_to_literal_constructor
 
-import 'package:bec_app/global/constant/app_colors.dart';
-import 'package:bec_app/global/constant/app_urls.dart';
+import 'package:bec_app/constant/app_colors.dart';
+import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
 import 'package:bec_app/screen/meal_transaction/meal_type_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';

@@ -1,6 +1,6 @@
 import 'package:bec_app/cubit/transaction/transaction_cubit.dart';
 import 'package:bec_app/cubit/transaction/transaction_state.dart';
-import 'package:bec_app/global/constant/app_colors.dart';
+import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

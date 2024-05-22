@@ -1,6 +1,6 @@
 import 'package:bec_app/controller/login/login_controller.dart';
 import 'package:bec_app/cubit/login/login_states.dart';
-import 'package:bec_app/global/constant/app_preferences.dart';
+import 'package:bec_app/constant/app_preferences.dart';
 import 'package:bec_app/utils/network.dart';
 import 'package:bec_app/model/login/LoginModel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
