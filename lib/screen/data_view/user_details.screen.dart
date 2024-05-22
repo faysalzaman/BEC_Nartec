@@ -1,3 +1,5 @@
+// ignore_for_file: non_const_call_to_literal_constructor
+
 import 'package:bec_app/global/constant/app_colors.dart';
 import 'package:bec_app/global/constant/app_urls.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
@@ -5,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class UserDetailsScreen extends StatefulWidget {
   const UserDetailsScreen({super.key, required this.employees});
@@ -41,7 +44,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: context.height() * 0.3,
+                padding: const EdgeInsets.only(bottom: 20),
                 width: context.width() * 1,
                 decoration: const BoxDecoration(
                   color: AppColors.primary,
@@ -82,8 +85,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         ),
                         child: ClipOval(
                           child: CachedNetworkImage(
-                            imageUrl:
-                            widget.employees.profilePicture == null
+                            imageUrl: widget.employees.profilePicture == null
                                 ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
                                 : "${AppUrls.baseUrl}${widget.employees.profilePicture?.replaceAll("\\", "/")}",
                             fit: BoxFit.cover,
@@ -102,6 +104,16 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                           color: Colors.white,
                         ),
                         textAlign: TextAlign.center,
+                      ),
+                    ),
+                    10.height,
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: PrettyQrView.data(
+                        data: widget.employees.employeeCode ?? "null",
+                        decoration:
+                            PrettyQrDecoration(background: Colors.white),
                       ),
                     ),
                   ],
