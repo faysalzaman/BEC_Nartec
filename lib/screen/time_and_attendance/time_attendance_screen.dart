@@ -91,6 +91,8 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                               }
 
                               if (state is AttendanceInError) {
+                                toast(state.error.replaceAll("Exception:", ""));
+
                                 attendanceCubit.getAttendance(
                                     widget.employee.id.toString());
                               }
@@ -159,6 +161,7 @@ class _TimeAndAttendanceScreenState extends State<TimeAndAttendanceScreen> {
                               }
 
                               if (state is AttendanceOutError) {
+                                toast(state.error.replaceAll("Exception:", ""));
                                 attendanceCubit.getAttendance(
                                     widget.employee.id.toString());
                               }

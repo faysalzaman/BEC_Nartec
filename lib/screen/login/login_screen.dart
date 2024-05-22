@@ -32,6 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   LoginCubit loginCubit = LoginCubit();
 
+  bool isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,9 +104,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         //   passwordController.text.trim(),
                         // );
                       },
+                      obscureText: !isPasswordVisible,
                       decoration: InputDecoration(
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 10),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                        ),
                         hintText: 'Password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
