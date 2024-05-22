@@ -111,17 +111,15 @@ class _UserProfileAttendanceScreenState
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    10.height,
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: PrettyQrView.data(
-                        data: widget.employees.employeeCode ?? "null",
-                        decoration:
-                            PrettyQrDecoration(background: Colors.white),
-                      ),
-                    ),
                   ],
+                ),
+              ),
+              10.height,
+              SizedBox(
+                width: 100,
+                height: 100,
+                child: PrettyQrView.data(
+                  data: widget.employees.employeeCode ?? "null",
                 ),
               ),
               50.height,

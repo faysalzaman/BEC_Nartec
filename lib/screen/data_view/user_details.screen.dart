@@ -107,16 +107,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ),
                     ),
                     10.height,
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: PrettyQrView.data(
-                        data: widget.employees.employeeCode ?? "null",
-                        decoration:
-                            PrettyQrDecoration(background: Colors.white),
-                      ),
-                    ),
                   ],
+                ),
+              ),
+              10.height,
+              SizedBox(
+                width: 100,
+                height: 100,
+                child: PrettyQrView.data(
+                  data: widget.employees.employeeCode ?? "null",
                 ),
               ),
               Container(
