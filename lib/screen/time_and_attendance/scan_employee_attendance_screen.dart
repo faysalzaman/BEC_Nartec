@@ -1,8 +1,8 @@
-import 'package:bec_app/screen/time_and_attendance/user_profile_attendance_screen.dart';
+import 'package:bec_app/cubit/attendance/attendance_cubit.dart';
+import 'package:bec_app/cubit/attendance/attendance_state.dart';
 import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
 import 'package:bec_app/constant/app_colors.dart';
-import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -21,6 +21,7 @@ class _ScanEmployeeAttendanceScreenState
   FocusNode qrTextFocus = FocusNode();
 
   EmployeeCubit employeeCubit = EmployeeCubit();
+  AttendanceCubit attendanceCubit = AttendanceCubit();
 
   @override
   void dispose() {
@@ -44,10 +45,8 @@ class _ScanEmployeeAttendanceScreenState
         bloc: employeeCubit,
         listener: (context, state) {
           if (state is EmployeeByIdSuccess) {
-            AppNavigator.goToPage(
-              context: context,
-              screen: UserProfileAttendanceScreen(employees: state.employee),
-            );
+            attendanceCubit.attendanceIn(state.employee.id.toString());
+            qrTextController.clear();
           }
 
           if (state is EmployeeError) {
@@ -110,33 +109,47 @@ class _ScanEmployeeAttendanceScreenState
                     ),
                   ),
                   40.height,
-                  SizedBox(
-                    width: context.width() * 0.6,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: () {
-                        if (qrTextController.text.isEmpty) {
-                          qrTextFocus.unfocus();
-                          return;
-                        }
-                        qrTextFocus.unfocus();
-                        employeeCubit
-                            .getEmployeeById(qrTextController.text.trim());
-                      },
-                      child: state is EmployeeLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                  color: Colors.white))
-                          : const Text(
-                              'Search',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
-                            ),
-                    ),
+                  BlocConsumer<AttendanceCubit, AttendanceState>(
+                    bloc: attendanceCubit,
+                    listener: (context, state) {
+                      if (state is AttendanceInError) {
+                        toast(state.error.replaceAll("Exception:", ""));
+                      }
+                      if (state is AttendanceInSuccess) {
+                        toast(state.message.replaceAll("Exception:", ""));
+                      }
+                    },
+                    builder: (context, state) {
+                      return SizedBox(
+                        width: context.width() * 0.6,
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: () {
+                            if (qrTextController.text.isEmpty) {
+                              qrTextFocus.unfocus();
+                              return;
+                            }
+                            qrTextFocus.unfocus();
+                            employeeCubit
+                                .getEmployeeById(qrTextController.text.trim());
+                          },
+                          child: state is EmployeeLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                      color: Colors.white))
+                              : const Text(
+                                  'Search',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

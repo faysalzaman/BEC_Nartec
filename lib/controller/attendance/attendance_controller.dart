@@ -7,10 +7,10 @@ import 'package:bec_app/model/attendance/AttendanceModel.dart';
 import 'package:http/http.dart' as http;
 
 class AttendanceController {
-  static Future<void> attendanceIn(String id) async {
+  static Future<String> attendanceIn(String id) async {
     String? token = await AppPreferences.getToken();
 
-    final url = Uri.parse('${AppUrls.baseUrl}/api/attendance/checkin');
+    final url = Uri.parse('${AppUrls.baseUrl}/api/attendance');
 
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -19,40 +19,17 @@ class AttendanceController {
 
     String date = DateTime.now().toString();
 
-    final body = jsonEncode({"employeeId": id, "checkIn": date});
+    final body = jsonEncode({"employeeId": id, "timestamp": date});
 
     final response = await http.post(url, headers: headers, body: body);
 
-    print(response.body);
+    var data = json.decode(response.body);
+    print(data);
 
     if (response.statusCode == 200) {
-      return;
+      return data['message'];
     } else {
-      final msg = json.decode(response.body)['error'];
-      throw Exception(msg);
-    }
-  }
-
-  static Future<void> attendanceOut(String id) async {
-    String? token = await AppPreferences.getToken();
-
-    final url = Uri.parse('${AppUrls.baseUrl}/api/attendance/checkout');
-
-    final headers = <String, String>{
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
-    String date = DateTime.now().toString();
-
-    final body = jsonEncode({"employeeId": id, "checkOut": date});
-
-    final response = await http.post(url, headers: headers, body: body);
-
-    if (response.statusCode == 200) {
-      return;
-    } else {
-      final msg = json.decode(response.body)['error'];
+      final msg = data['message'];
       throw Exception(msg);
     }
   }

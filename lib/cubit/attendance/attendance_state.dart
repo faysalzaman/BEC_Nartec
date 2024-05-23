@@ -8,11 +8,11 @@ class AttendanceLoading extends AttendanceState {}
 
 class AttendanceInLoading extends AttendanceState {}
 
-class AttendanceOutLoading extends AttendanceState {}
+class AttendanceInSuccess extends AttendanceState {
+  final String message;
 
-class AttendanceInSuccess extends AttendanceState {}
-
-class AttendanceOutSuccess extends AttendanceState {}
+  AttendanceInSuccess(this.message);
+}
 
 class AttendanceSuccess extends AttendanceState {
   final List<AttendanceModel> attendance;
@@ -36,10 +36,4 @@ class AttendanceInError extends AttendanceState {
   final String error;
 
   AttendanceInError(this.error);
-}
-
-class AttendanceOutError extends AttendanceState {
-  final String error;
-
-  AttendanceOutError(this.error);
 }

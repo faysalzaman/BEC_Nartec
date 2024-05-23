@@ -16,26 +16,10 @@ class AttendanceCubit extends Cubit<AttendanceState> {
         return;
       }
 
-      await AttendanceController.attendanceIn(id);
-      emit(AttendanceInSuccess());
+      String msg = await AttendanceController.attendanceIn(id);
+      emit(AttendanceInSuccess(msg));
     } catch (e) {
       emit(AttendanceInError(e.toString()));
-    }
-  }
-
-  void attendanceOut(String id) async {
-    emit(AttendanceOutLoading());
-    try {
-      bool networkStatus = await Network.check();
-      if (!networkStatus) {
-        emit(AttendanceOutError('No internet connection'));
-        return;
-      }
-
-      await AttendanceController.attendanceOut(id);
-      emit(AttendanceOutSuccess());
-    } catch (e) {
-      emit(AttendanceOutError(e.toString()));
     }
   }
 

@@ -1,26 +1,26 @@
 import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
 import 'package:bec_app/constant/app_colors.dart';
-import 'package:bec_app/cubit/transaction/transaction_cubit.dart';
-import 'package:bec_app/cubit/transaction/transaction_state.dart';
-
+import 'package:bec_app/screen/time_attendance_history.dart/user_profile_attendance_history_screen.dart';
+import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class ScanEmployeeMealScreen extends StatefulWidget {
-  const ScanEmployeeMealScreen({super.key});
+class ScanEmployeeAttendanceHistoryScreen extends StatefulWidget {
+  const ScanEmployeeAttendanceHistoryScreen({super.key});
 
   @override
-  State<ScanEmployeeMealScreen> createState() => _ScanEmployeeMealScreenState();
+  State<ScanEmployeeAttendanceHistoryScreen> createState() =>
+      _ScanEmployeeAttendanceHistoryScreenState();
 }
 
-class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
+class _ScanEmployeeAttendanceHistoryScreenState
+    extends State<ScanEmployeeAttendanceHistoryScreen> {
   TextEditingController qrTextController = TextEditingController();
   FocusNode qrTextFocus = FocusNode();
 
   EmployeeCubit employeeCubit = EmployeeCubit();
-  TransactionCubit transactionCubit = TransactionCubit();
 
   @override
   void dispose() {
@@ -44,8 +44,11 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
         bloc: employeeCubit,
         listener: (context, state) {
           if (state is EmployeeByIdSuccess) {
-            transactionCubit.transaction(state.employee.id.toString());
-            qrTextController.clear();
+            AppNavigator.goToPage(
+              context: context,
+              screen:
+                  UserProfileAttendanceHistoryScreen(employee: state.employee),
+            );
           }
 
           if (state is EmployeeError) {
@@ -108,47 +111,33 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                     ),
                   ),
                   40.height,
-                  BlocConsumer<TransactionCubit, TransactionState>(
-                    bloc: transactionCubit,
-                    listener: (context, state) {
-                      if (state is TransactionSuccess) {
-                        toast(state.message.replaceAll("Exception:", ""));
-                      } else if (state is TransactionError) {
-                        toast(state.error.replaceAll("Exception:", ""),
-                            bgColor: Colors.red);
-                      }
-                    },
-                    builder: (context, state) {
-                      return SizedBox(
-                        width: context.width() * 0.6,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                          ),
-                          onPressed: () {
-                            if (qrTextController.text.isEmpty) {
-                              qrTextFocus.unfocus();
-                              return;
-                            }
-                            qrTextFocus.unfocus();
-                            employeeCubit
-                                .getEmployeeById(qrTextController.text.trim());
-                          },
-                          child: state is EmployeeLoading
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                      color: Colors.white))
-                              : const Text(
-                                  'Search',
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                        ),
-                      );
-                    },
+                  SizedBox(
+                    width: context.width() * 0.6,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {
+                        if (qrTextController.text.isEmpty) {
+                          qrTextFocus.unfocus();
+                          return;
+                        }
+                        qrTextFocus.unfocus();
+                        employeeCubit
+                            .getEmployeeById(qrTextController.text.trim());
+                      },
+                      child: state is EmployeeLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.white))
+                          : const Text(
+                              'Search',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
+                    ),
                   ),
                 ],
               ),

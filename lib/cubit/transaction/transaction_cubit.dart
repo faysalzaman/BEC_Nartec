@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit() : super(TransactionInitial());
 
-  void transaction(String empId, String mealType) async {
+  void transaction(String empId) async {
     emit(TransactionLoading());
     try {
       bool networkStatus = await Network.check();
@@ -15,8 +15,8 @@ class TransactionCubit extends Cubit<TransactionState> {
         return;
       }
 
-      await TransactionController.transaction(empId, mealType);
-      emit(TransactionSuccess());
+      String msg = await TransactionController.transaction(empId);
+      emit(TransactionSuccess(msg));
     } catch (e) {
       emit(TransactionError(e.toString()));
     }

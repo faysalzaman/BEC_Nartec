@@ -3,9 +3,8 @@
 import 'package:bec_app/cubit/attendance/attendance_cubit.dart';
 import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/constant/app_urls.dart';
+import 'package:bec_app/cubit/attendance/attendance_state.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
-import 'package:bec_app/screen/time_and_attendance/time_attendance_screen.dart';
-import 'package:bec_app/utils/app_navigator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +23,8 @@ class UserProfileAttendanceScreen extends StatefulWidget {
 
 class _UserProfileAttendanceScreenState
     extends State<UserProfileAttendanceScreen> {
+  AttendanceCubit attendanceCubit = AttendanceCubit();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,29 +124,33 @@ class _UserProfileAttendanceScreenState
                 ),
               ),
               50.height,
-              SizedBox(
-                width: context.width() * 0.8,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () {
-                    AppNavigator.goToPage(
-                      context: context,
-                      screen: BlocProvider<AttendanceCubit>(
-                        create: (context) => AttendanceCubit(),
-                        child:
-                            TimeAndAttendanceScreen(employee: widget.employees),
+              BlocConsumer<AttendanceCubit, AttendanceState>(
+                bloc: attendanceCubit,
+                listener: (context, state) {},
+                builder: (context, state) {
+                  return SizedBox(
+                    width: context.width() * 0.8,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
                       ),
-                    );
-                  },
-                  child: const Text(
-                    'Time And Attendance >',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                ),
+                      onPressed: () {
+                        attendanceCubit
+                            .attendanceIn(widget.employees.id.toString());
+                      },
+                      child: state is AttendanceInLoading
+                          ? const CircularProgressIndicator(
+                              color: AppColors.background)
+                          : const Text(
+                              'Time And Attendance >',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

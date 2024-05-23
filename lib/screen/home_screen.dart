@@ -2,6 +2,7 @@ import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/data_view/users_screen.dart';
 import 'package:bec_app/screen/meal_transaction/scan_employee_meal_screen.dart';
 import 'package:bec_app/screen/time_and_attendance/scan_employee_attendance_screen.dart';
+import 'package:bec_app/screen/time_attendance_history.dart/scan_employee_attendance_history.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -90,6 +91,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
+            ),
+            20.height,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.grey,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: () {
+                AppNavigator.goToPage(
+                  context: context,
+                  screen: const ScanEmployeeAttendanceHistoryScreen(),
+                );
+              },
+              child: const Text('View Attendance History'),
             ),
           ],
         ),

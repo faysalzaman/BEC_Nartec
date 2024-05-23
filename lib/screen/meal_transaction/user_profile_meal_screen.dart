@@ -2,11 +2,12 @@
 
 import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/constant/app_urls.dart';
+import 'package:bec_app/cubit/transaction/transaction_cubit.dart';
+import 'package:bec_app/cubit/transaction/transaction_state.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
-import 'package:bec_app/screen/meal_transaction/meal_type_screen.dart';
-import 'package:bec_app/utils/app_navigator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
@@ -20,6 +21,8 @@ class UserProfileMealScreen extends StatefulWidget {
 }
 
 class _UserProfileMealScreenState extends State<UserProfileMealScreen> {
+  TransactionCubit transactionCubit = TransactionCubit();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,25 +122,39 @@ class _UserProfileMealScreenState extends State<UserProfileMealScreen> {
                 ),
               ),
               50.height,
-              SizedBox(
-                width: context.width() * 0.8,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () {
-                    AppNavigator.goToPage(
-                      context: context,
-                      screen: MealTypeScreen(employee: widget.employees),
-                    );
-                  },
-                  child: const Text(
-                    'Meal Transactions >',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                ),
+              BlocConsumer<TransactionCubit, TransactionState>(
+                bloc: transactionCubit,
+                listener: (context, state) {
+                  if (state is TransactionSuccess) {
+                    toast(state.message.replaceAll("Exception:", ""));
+                  } else if (state is TransactionError) {
+                    toast(state.error.replaceAll("Exception:", ""),
+                        bgColor: Colors.red);
+                  }
+                },
+                builder: (context, state) {
+                  return SizedBox(
+                    width: context.width() * 0.8,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {
+                        transactionCubit
+                            .transaction(widget.employees.id.toString());
+                      },
+                      child: state is TransactionLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              'Meal Transactions >',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
