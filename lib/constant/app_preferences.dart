@@ -25,6 +25,12 @@ class AppPreferences {
     prefs.setString('token', token);
   }
 
+  /* set imei */
+  static Future<void> setImei(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('imei', token);
+  }
+
   // Getters
 
   /*  Get user id  */
@@ -49,5 +55,11 @@ class AppPreferences {
   static Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
+  }
+
+  /* get imei */
+  static Future<String?> getImei() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('imei');
   }
 }

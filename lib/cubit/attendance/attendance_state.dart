@@ -1,4 +1,5 @@
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
+import 'package:bec_app/model/attendance/ImeiModel';
 
 abstract class AttendanceState {}
 
@@ -9,9 +10,9 @@ class AttendanceLoading extends AttendanceState {}
 class AttendanceInLoading extends AttendanceState {}
 
 class AttendanceInSuccess extends AttendanceState {
-  final String message;
+  final ImeiModel imei;
 
-  AttendanceInSuccess(this.message);
+  AttendanceInSuccess(this.imei);
 }
 
 class AttendanceSuccess extends AttendanceState {

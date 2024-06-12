@@ -1,6 +1,7 @@
 import 'package:bec_app/controller/attendance/attendance_controller.dart';
 import 'package:bec_app/cubit/attendance/attendance_state.dart';
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
+import 'package:bec_app/model/attendance/ImeiModel';
 import 'package:bec_app/utils/network.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,8 +17,8 @@ class AttendanceCubit extends Cubit<AttendanceState> {
         return;
       }
 
-      String msg = await AttendanceController.attendanceIn(id);
-      emit(AttendanceInSuccess(msg));
+      ImeiModel data = await AttendanceController.attendanceIn(id);
+      emit(AttendanceInSuccess(data));
     } catch (e) {
       emit(AttendanceInError(e.toString()));
     }

@@ -8,10 +8,12 @@ class EmployeeModel {
   String? location;
   String? employeeCode;
   String? profilePicture;
-  String? locationCode;
   String? nationality;
-  String? companyId;
   String? companyName;
+  String? passportNumber;
+  String? employmentType;
+  String? jobTitle;
+  String? roomNumber;
   String? createdAt;
   String? updatedAt;
 
@@ -23,10 +25,12 @@ class EmployeeModel {
     this.location,
     this.employeeCode,
     this.profilePicture,
-    this.locationCode,
     this.nationality,
-    this.companyId,
     this.companyName,
+    this.passportNumber,
+    this.employmentType,
+    this.jobTitle,
+    this.roomNumber,
     this.createdAt,
     this.updatedAt,
   });
@@ -39,10 +43,12 @@ class EmployeeModel {
     location = json['location'];
     employeeCode = json['employeeCode'];
     profilePicture = json['profilePicture'];
-    locationCode = json['locationCode'];
     nationality = json['nationality'];
-    companyId = json['companyId'];
     companyName = json['companyName'];
+    passportNumber = json['passportNumber'];
+    employmentType = json['employmentType'];
+    jobTitle = json['jobTitle'];
+    roomNumber = json['roomNumber'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -56,10 +62,12 @@ class EmployeeModel {
     data['location'] = location;
     data['employeeCode'] = employeeCode;
     data['profilePicture'] = profilePicture;
-    data['locationCode'] = locationCode;
     data['nationality'] = nationality;
-    data['companyId'] = companyId;
     data['companyName'] = companyName;
+    data['passportNumber'] = passportNumber;
+    data['employmentType'] = employmentType;
+    data['jobTitle'] = jobTitle;
+    data['roomNumber'] = roomNumber;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     return data;

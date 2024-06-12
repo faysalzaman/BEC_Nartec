@@ -1,11 +1,16 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:bec_app/constant/app_preferences.dart';
 import 'package:bec_app/cubit/login/login_cubit.dart';
 import 'package:bec_app/cubit/login/login_states.dart';
 import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/home_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,6 +25,44 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final FocusNode usernameFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
+
+  String deviceId = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getDeviceDetails();
+  }
+
+  Future<void> getDeviceDetails() async {
+    var status = await Permission.phone.status;
+    if (!status.isGranted) {
+      if (await Permission.phone.request().isGranted) {
+        fetchDeviceId();
+      } else {
+        setState(() {
+          deviceId = "Permission Denied";
+        });
+      }
+    } else {
+      fetchDeviceId();
+    }
+  }
+
+  Future<void> fetchDeviceId() async {
+    try {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      setState(() {
+        deviceId = androidInfo.id; // Use androidId as a fallback
+      });
+      AppPreferences.setImei(deviceId.toString()).then((value) {});
+    } catch (e) {
+      setState(() {
+        deviceId = "Failed to get device info";
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -70,6 +113,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text(
                     "Employee Time Managemenet",
                     style: TextStyle(fontSize: 18),
+                  ),
+                  10.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Device ID: ",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Text(
+                        " $deviceId",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ],
                   ),
                   30.height,
                   Padding(

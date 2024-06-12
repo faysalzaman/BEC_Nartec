@@ -239,30 +239,6 @@ class ShimmerWidgetForEmployeesList extends StatelessWidget {
       highlightColor: Colors.white.withOpacity(0.5),
       child: Column(
         children: [
-          20.height,
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    'Employees',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Total Employees: 0',
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-              Column(),
-            ],
-          ),
           ListView.builder(
             itemCount: 5,
             shrinkWrap: true,

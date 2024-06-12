@@ -4,13 +4,20 @@ import 'dart:convert';
 import 'package:bec_app/constant/app_preferences.dart';
 import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
+import 'package:bec_app/model/attendance/ImeiModel';
 import 'package:http/http.dart' as http;
 
 class AttendanceController {
-  static Future<String> attendanceIn(String id) async {
+  static Future<ImeiModel> attendanceIn(String id) async {
     String? token = await AppPreferences.getToken();
+    String? deviceId = await AppPreferences.getImei();
+
+    print(deviceId);
+    print(token);
 
     final url = Uri.parse('${AppUrls.baseUrl}/api/attendance');
+
+    print(url);
 
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -19,15 +26,16 @@ class AttendanceController {
 
     String date = DateTime.now().toString();
 
-    final body = jsonEncode({"employeeId": id, "timestamp": date});
+    final body =
+        jsonEncode({"employeeId": id, "timestamp": date, "IMEI": deviceId});
+
+    print(body);
 
     final response = await http.post(url, headers: headers, body: body);
 
     var data = json.decode(response.body);
-    print(data);
-
     if (response.statusCode == 200) {
-      return data['message'];
+      return ImeiModel.fromJson(data);
     } else {
       final msg = data['message'];
       throw Exception(msg);
