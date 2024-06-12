@@ -1,8 +1,12 @@
+import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
 import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/cubit/transaction/transaction_cubit.dart';
 import 'package:bec_app/cubit/transaction/transaction_state.dart';
+import 'package:bec_app/model/attendance/ImeiModel2.dart';
+import 'package:bec_app/screen/data_view/user_details.screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +32,8 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
     qrTextFocus.dispose();
     super.dispose();
   }
+
+  ImeiModel2 data = ImeiModel2();
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +118,10 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                     bloc: transactionCubit,
                     listener: (context, state) {
                       if (state is TransactionSuccess) {
-                        toast(state.message.replaceAll("Exception:", ""));
+                        setState(() {
+                          data = state.data;
+                          toast(data.message?.replaceAll("Exception:", ""));
+                        });
                       } else if (state is TransactionError) {
                         toast(state.error.replaceAll("Exception:", ""),
                             bgColor: Colors.red);
@@ -149,6 +158,76 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                         ),
                       );
                     },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Visibility(
+                      visible: data.transaction?.employee?.employeeCode?.toString().isNotEmpty ?? false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          20.height,
+                          Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 20),
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 2, // Set the border width
+                                  ),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                  "${AppUrls.baseUrl}${data.transaction?.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) => const Icon(Icons.image_outlined),
+                                ),
+                              ),
+                              10.width,
+                              Text("Emp Code: "+"${data.transaction?.employee?.employeeCode?.toString() ?? "null"}"),
+                            ],
+                          ),
+                          10.height,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                            child: Text("${data.message}",
+                              style: const TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          KeyValueInfoWidget(
+                            keyy: 'Name',
+                            value: data.transaction?.employee?.name ?? "null",
+                          ),
+                          KeyValueInfoWidget(
+                            keyy: 'Company',
+                            value: data.transaction?.employee?.companyName ?? "null",
+                          ),
+                          KeyValueInfoWidget(
+                            keyy: 'Job Title',
+                            value: data.transaction?.employee?.jobTitle ?? "null",
+                          ),
+                          KeyValueInfoWidget(
+                            keyy: 'Room Number',
+                            value: data.transaction?.employee?.roomNumber ?? "null",
+                          ),
+                          KeyValueInfoWidget(
+                            keyy: 'Category',
+                            value: data.transaction?.employee?.jobTitle ?? "null",
+                          ),
+                          10.height,
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

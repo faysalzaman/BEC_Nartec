@@ -1,3 +1,5 @@
+import 'package:bec_app/model/attendance/ImeiModel2.dart';
+
 abstract class TransactionState {}
 
 class TransactionInitial extends TransactionState {}
@@ -5,9 +7,9 @@ class TransactionInitial extends TransactionState {}
 class TransactionLoading extends TransactionState {}
 
 class TransactionSuccess extends TransactionState {
-  final String message;
+  final ImeiModel2 data;
 
-  TransactionSuccess(this.message);
+  TransactionSuccess(this.data);
 }
 
 class TransactionError extends TransactionState {

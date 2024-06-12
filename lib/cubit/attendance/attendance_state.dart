@@ -1,5 +1,5 @@
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
-import 'package:bec_app/model/attendance/ImeiModel';
+import 'package:bec_app/model/attendance/ImeiModel.dart';
 
 abstract class AttendanceState {}
 

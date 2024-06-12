@@ -1,5 +1,6 @@
 import 'package:bec_app/controller/transaction/transaction_controller.dart';
 import 'package:bec_app/cubit/transaction/transaction_state.dart';
+import 'package:bec_app/model/attendance/ImeiModel2.dart';
 import 'package:bec_app/utils/network.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,9 +15,8 @@ class TransactionCubit extends Cubit<TransactionState> {
         emit(TransactionError('No internet connection'));
         return;
       }
-
-      String msg = await TransactionController.transaction(empId);
-      emit(TransactionSuccess(msg));
+      ImeiModel2 data = await TransactionController.transaction(empId);
+      emit(TransactionSuccess(data));
     } catch (e) {
       emit(TransactionError(e.toString()));
     }

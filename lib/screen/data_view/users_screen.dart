@@ -240,7 +240,7 @@ class ShimmerWidgetForEmployeesList extends StatelessWidget {
       child: Column(
         children: [
           ListView.builder(
-            itemCount: 5,
+            itemCount: 10,
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:bec_app/constant/app_preferences.dart';
 import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
-import 'package:bec_app/model/attendance/ImeiModel';
+import 'package:bec_app/model/attendance/ImeiModel.dart';
 import 'package:http/http.dart' as http;
 
 class AttendanceController {
