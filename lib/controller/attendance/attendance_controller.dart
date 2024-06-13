@@ -34,7 +34,7 @@ class AttendanceController {
     final response = await http.post(url, headers: headers, body: body);
 
     var data = json.decode(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return ImeiModel.fromJson(data);
     } else {
       final msg = data['message'];

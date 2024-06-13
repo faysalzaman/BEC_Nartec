@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final FocusNode usernameFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
 
-  String deviceId = "";
+  String deviceId = "Unknown";
 
   @override
   void initState() {
@@ -53,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
       setState(() {
         deviceId = androidInfo.id; // Use androidId as a fallback
       });

@@ -50,8 +50,10 @@ android {
         applicationId "com.nartec.bec_app"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        // versionCode flutterVersionCode.toInteger()
+        // versionName flutterVersionName
+        versionCode 2
+        versionName "1.10"
     }
 
     signingConfigs {

@@ -2,7 +2,8 @@ import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/data_view/users_screen.dart';
 import 'package:bec_app/screen/meal_transaction/scan_employee_meal_screen.dart';
 import 'package:bec_app/screen/time_and_attendance/scan_employee_attendance_screen.dart';
-import 'package:bec_app/screen/time_attendance_history.dart/scan_employee_attendance_history.dart';
+import 'package:bec_app/screen/time_attendance_history/scan_employee_attendance_history.dart';
+import 'package:bec_app/screen/transaction_history/scan_transaction_history_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -14,7 +15,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeInAnimation;
   late Animation<Offset> _slideAnimation;
@@ -88,14 +90,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         }
                       },
                       child: Container(
-                        height: context.height() * 0.13,
-                        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        height: context.height() * 0.12,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                         decoration: BoxDecoration(
                           image: const DecorationImage(
-                            image: AssetImage('assets/images/card_background.jpg'),
+                            image:
+                                AssetImage('assets/images/card_background.jpg'),
                             fit: BoxFit.cover,
                           ),
-                          border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                          border:
+                              Border.all(color: Colors.grey.withOpacity(0.2)),
                           color: Colors.blueGrey.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
@@ -103,7 +108,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               color: Colors.grey.withOpacity(0.4),
                               spreadRadius: 5,
                               blurRadius: 7,
-                              offset: const Offset(0, 3), // changes position of shadow
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
                             ),
                           ],
                         ),
@@ -115,8 +121,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               index == 0
                                   ? 'Data View'
                                   : index == 1
-                                  ? 'Meal Transaction'
-                                  : 'Time Attendance',
+                                      ? 'Meal Transaction'
+                                      : 'Time Attendance',
                               style: const TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -146,6 +152,23 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   );
                 },
                 child: const Text('View Attendance History'),
+              ),
+              10.height,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.grey,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  AppNavigator.goToPage(
+                    context: context,
+                    screen: const ScanTransactionHistoryScreen(),
+                  );
+                },
+                child: const Text('View Transaction History'),
               ),
             ],
           ),

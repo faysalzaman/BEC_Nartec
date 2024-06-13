@@ -123,9 +123,9 @@ class _ScanEmployeeAttendanceScreenState
                       }
                       if (state is AttendanceInSuccess) {
                         setState(() {
-                          data = state.imei; 
-                          toast(state.imei.message?.replaceAll("Exception:", ""));
+                          data = state.imei;
                         });
+                        toast(state.imei.message?.replaceAll("Exception:", ""));
                       }
                     },
                     builder: (context, state) {
@@ -164,7 +164,10 @@ class _ScanEmployeeAttendanceScreenState
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Visibility(
-                      visible: data.attendance?.employee?.employeeCode?.toString().isNotEmpty ?? false,
+                      visible: data.attendance?.employee?.employeeCode
+                              ?.toString()
+                              .isNotEmpty ??
+                          false,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -184,26 +187,30 @@ class _ScanEmployeeAttendanceScreenState
                                 ),
                                 child: CachedNetworkImage(
                                   imageUrl:
-                                  "${AppUrls.baseUrl}${data.attendance?.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
+                                      "${AppUrls.baseUrl}${data.attendance?.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
                                   width: 50,
                                   height: 50,
                                   fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) => const Icon(Icons.image_outlined),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.image_outlined),
                                 ),
                               ),
                               10.width,
-                              Text("Emp Code: ${data.attendance?.employee?.employeeCode?.toString() ?? "null"}"),
+                              Text(
+                                  "Emp Code: ${data.attendance?.employee?.employeeCode?.toString() ?? "null"}"),
                             ],
                           ),
                           10.height,
                           Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                            child: Text("${data.message}",
-                            style: const TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            padding: const EdgeInsets.only(
+                                left: 20, top: 10, bottom: 10),
+                            child: Text(
+                              "${data.message}",
+                              style: const TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           KeyValueInfoWidget(
@@ -212,19 +219,23 @@ class _ScanEmployeeAttendanceScreenState
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Company',
-                            value: data.attendance?.employee?.companyName ?? "null",
+                            value: data.attendance?.employee?.companyName ??
+                                "null",
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Job Title',
-                            value: data.attendance?.employee?.jobTitle ?? "null",
+                            value:
+                                data.attendance?.employee?.jobTitle ?? "null",
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Room Number',
-                            value: data.attendance?.employee?.roomNumber ?? "null",
+                            value:
+                                data.attendance?.employee?.roomNumber ?? "null",
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Category',
-                            value: data.attendance?.employee?.jobTitle ?? "null",
+                            value:
+                                data.attendance?.employee?.jobTitle ?? "null",
                           ),
                           10.height,
                         ],

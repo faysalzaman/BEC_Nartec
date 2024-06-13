@@ -120,8 +120,8 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                       if (state is TransactionSuccess) {
                         setState(() {
                           data = state.data;
-                          toast(data.message?.replaceAll("Exception:", ""));
                         });
+                        toast(data.message?.replaceAll("Exception:", ""));
                       } else if (state is TransactionError) {
                         toast(state.error.replaceAll("Exception:", ""),
                             bgColor: Colors.red);
@@ -162,7 +162,10 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Visibility(
-                      visible: data.transaction?.employee?.employeeCode?.toString().isNotEmpty ?? false,
+                      visible: data.transaction?.employee?.employeeCode
+                              ?.toString()
+                              .isNotEmpty ??
+                          false,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -182,21 +185,25 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                                 ),
                                 child: CachedNetworkImage(
                                   imageUrl:
-                                  "${AppUrls.baseUrl}${data.transaction?.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
+                                      "${AppUrls.baseUrl}${data.transaction?.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
                                   width: 50,
                                   height: 50,
                                   fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) => const Icon(Icons.image_outlined),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.image_outlined),
                                 ),
                               ),
                               10.width,
-                              Text("Emp Code: "+"${data.transaction?.employee?.employeeCode?.toString() ?? "null"}"),
+                              Text("Emp Code: " +
+                                  "${data.transaction?.employee?.employeeCode?.toString() ?? "null"}"),
                             ],
                           ),
                           10.height,
                           Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                            child: Text("${data.message}",
+                            padding: const EdgeInsets.only(
+                                left: 20, top: 10, bottom: 10),
+                            child: Text(
+                              "${data.message}",
                               style: const TextStyle(
                                 color: AppColors.primary,
                                 fontSize: 15,
@@ -210,19 +217,23 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Company',
-                            value: data.transaction?.employee?.companyName ?? "null",
+                            value: data.transaction?.employee?.companyName ??
+                                "null",
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Job Title',
-                            value: data.transaction?.employee?.jobTitle ?? "null",
+                            value:
+                                data.transaction?.employee?.jobTitle ?? "null",
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Room Number',
-                            value: data.transaction?.employee?.roomNumber ?? "null",
+                            value: data.transaction?.employee?.roomNumber ??
+                                "null",
                           ),
                           KeyValueInfoWidget(
                             keyy: 'Category',
-                            value: data.transaction?.employee?.jobTitle ?? "null",
+                            value:
+                                data.transaction?.employee?.jobTitle ?? "null",
                           ),
                           10.height,
                         ],

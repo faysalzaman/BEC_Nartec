@@ -87,9 +87,8 @@ class EmployeeController {
 
     final response = await http.get(url, headers: headers);
 
-    var info = json.decode(response.body)['employee'];
-
     if (response.statusCode == 200 || response.statusCode == 201) {
+      var info = json.decode(response.body)['employee'];
       return EmployeeModel.fromJson(info);
     } else {
       final msg = json.decode(response.body)['error'];

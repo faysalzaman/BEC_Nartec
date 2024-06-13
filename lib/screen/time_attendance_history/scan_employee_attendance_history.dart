@@ -1,7 +1,7 @@
 import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
 import 'package:bec_app/constant/app_colors.dart';
-import 'package:bec_app/screen/time_attendance_history.dart/user_profile_attendance_history_screen.dart';
+import 'package:bec_app/screen/time_attendance_history/user_profile_attendance_history_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

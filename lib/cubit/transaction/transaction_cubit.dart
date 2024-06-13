@@ -21,4 +21,28 @@ class TransactionCubit extends Cubit<TransactionState> {
       emit(TransactionError(e.toString()));
     }
   }
+
+  void getTransactionHistory(
+    String id, {
+    String? startDate,
+    String? endDate,
+  }) async {
+    emit(TransactionHistoryLoading());
+    try {
+      bool networkStatus = await Network.check();
+      if (!networkStatus) {
+        emit(TransactionHistoryError('No internet connection'));
+        return;
+      }
+      var response = await TransactionController.getTransactionHistory(
+        id: id,
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      emit(TransactionHistorySuccess(response));
+    } catch (e) {
+      emit(TransactionHistoryError(e.toString()));
+    }
+  }
 }
