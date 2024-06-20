@@ -4,7 +4,7 @@ import 'package:bec_app/constant/app_preferences.dart';
 import 'package:bec_app/cubit/login/login_cubit.dart';
 import 'package:bec_app/cubit/login/login_states.dart';
 import 'package:bec_app/constant/app_colors.dart';
-import 'package:bec_app/screen/home_screen.dart';
+import 'package:bec_app/screen/home/home_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';

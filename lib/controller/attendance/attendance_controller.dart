@@ -12,12 +12,7 @@ class AttendanceController {
     String? token = await AppPreferences.getToken();
     String? deviceId = await AppPreferences.getImei();
 
-    print(deviceId);
-    print(token);
-
     final url = Uri.parse('${AppUrls.baseUrl}/api/attendance');
-
-    print(url);
 
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -28,8 +23,6 @@ class AttendanceController {
 
     final body =
         jsonEncode({"employeeId": id, "timestamp": date, "IMEI": deviceId});
-
-    print(body);
 
     final response = await http.post(url, headers: headers, body: body);
 

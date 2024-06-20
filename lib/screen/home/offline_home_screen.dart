@@ -1,21 +1,17 @@
 import 'package:bec_app/constant/app_colors.dart';
-import 'package:bec_app/screen/data_view/users_screen.dart';
-import 'package:bec_app/screen/meal_transaction/scan_employee_meal_screen.dart';
-import 'package:bec_app/screen/time_and_attendance/scan_employee_attendance_screen.dart';
-import 'package:bec_app/screen/time_attendance_history/scan_employee_attendance_history.dart';
-import 'package:bec_app/screen/transaction_history/scan_transaction_history_screen.dart';
-import 'package:bec_app/utils/app_navigator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class OfflineHomeScreen extends StatefulWidget {
+  const OfflineHomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<OfflineHomeScreen> createState() => _OfflineHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class _OfflineHomeScreenState extends State<OfflineHomeScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeInAnimation;
@@ -63,30 +59,34 @@ class _HomeScreenState extends State<HomeScreen>
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset('assets/logos/bec_logo.jpeg'),
+              const Text(
+                'You are in Offline Mode',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 20), // More spacing
+
               SlideTransition(
                 position: _slideAnimation,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: 2,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         if (index == 0) {
-                          AppNavigator.goToPage(
-                            context: context,
-                            screen: const UsersScreen(),
-                          );
-                        } else if (index == 1) {
-                          AppNavigator.goToPage(
-                            context: context,
-                            screen: const ScanEmployeeMealScreen(),
-                          );
+                          // AppNavigator.goToPage(
+                          //   context: context,
+                          //   screen: const ScanEmployeeMealScreen(),
+                          // );
                         } else {
-                          AppNavigator.goToPage(
-                            context: context,
-                            screen: const ScanEmployeeAttendanceScreen(),
-                          );
+                          // AppNavigator.goToPage(
+                          //   context: context,
+                          //   screen: const ScanEmployeeAttendanceScreen(),
+                          // );
                         }
                       },
                       child: Container(
@@ -119,12 +119,10 @@ class _HomeScreenState extends State<HomeScreen>
                             alignment: Alignment.centerLeft,
                             child: Text(
                               index == 0
-                                  ? 'Data View'
-                                  : index == 1
-                                      ? 'Meal Transaction'
-                                      : 'Time Attendance',
+                                  ? 'Meal Transaction'
+                                  : 'Time Attendance',
                               style: const TextStyle(
-                                fontSize: 25,
+                                fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -135,40 +133,6 @@ class _HomeScreenState extends State<HomeScreen>
                     );
                   },
                 ),
-              ),
-              20.height,
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.grey,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: () {
-                  AppNavigator.goToPage(
-                    context: context,
-                    screen: const ScanEmployeeAttendanceHistoryScreen(),
-                  );
-                },
-                child: const Text('View Attendance History'),
-              ),
-              10.height,
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.grey,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: () {
-                  AppNavigator.goToPage(
-                    context: context,
-                    screen: const ScanTransactionHistoryScreen(),
-                  );
-                },
-                child: const Text('View Transaction History'),
               ),
             ],
           ),
