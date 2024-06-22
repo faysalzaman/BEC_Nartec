@@ -1,4 +1,6 @@
 import 'package:bec_app/constant/app_colors.dart';
+import 'package:bec_app/screen/meal_transaction/offline_meal_transaction/scan_employee_meal_offline.dart';
+import 'package:bec_app/utils/app_navigator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -78,10 +80,10 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen>
                     return GestureDetector(
                       onTap: () {
                         if (index == 0) {
-                          // AppNavigator.goToPage(
-                          //   context: context,
-                          //   screen: const ScanEmployeeMealScreen(),
-                          // );
+                          AppNavigator.goToPage(
+                            context: context,
+                            screen: const ScanEmployeeMealOfflineScreen(),
+                          );
                         } else {
                           // AppNavigator.goToPage(
                           //   context: context,
