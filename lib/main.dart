@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +25,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: UpgradeAlert(
+        // check android or ios
+        dialogStyle: Platform.isIOS
+            ? UpgradeDialogStyle.cupertino
+            : UpgradeDialogStyle.material,
+        child: const SplashScreen(),
+      ),
     );
   }
 }

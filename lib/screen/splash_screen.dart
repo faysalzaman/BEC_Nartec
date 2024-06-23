@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 3), () {
       AppNavigator.replaceTo(
         context: context,
-        screen: const ModeSelectionScreen(),
+        screen: ModeSelectionScreen(),
       );
     });
   }

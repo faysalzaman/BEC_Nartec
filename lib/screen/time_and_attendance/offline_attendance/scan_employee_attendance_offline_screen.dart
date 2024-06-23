@@ -11,23 +11,18 @@ import 'package:path_provider/path_provider.dart';
 
 import "dart:developer" as dev;
 
-class ScanEmployeeMealOfflineScreen extends StatefulWidget {
-  const ScanEmployeeMealOfflineScreen({super.key});
+class ScanEmployeeAttendaceOfflineScreen extends StatefulWidget {
+  const ScanEmployeeAttendaceOfflineScreen({super.key});
 
   @override
-  State<ScanEmployeeMealOfflineScreen> createState() =>
-      _ScanEmployeeMealOfflineScreenState();
+  State<ScanEmployeeAttendaceOfflineScreen> createState() =>
+      _ScanEmployeeAttendaceOfflineScreenState();
 }
 
-class _ScanEmployeeMealOfflineScreenState
-    extends State<ScanEmployeeMealOfflineScreen> {
+class _ScanEmployeeAttendaceOfflineScreenState
+    extends State<ScanEmployeeAttendaceOfflineScreen> {
   TextEditingController qrTextController = TextEditingController();
   FocusNode qrTextFocus = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -43,7 +38,7 @@ class _ScanEmployeeMealOfflineScreenState
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/transaction.json');
+    return File('$path/attendance.json');
   }
 
   Future<List<dynamic>> readJsonFile() async {
@@ -84,9 +79,7 @@ class _ScanEmployeeMealOfflineScreenState
       await file.writeAsString(json.encode(jsonList));
 
       // Display success toast message
-      int transactionCount =
-          await countTransactions(jsonData['employeeCode'], jsonData['date']);
-      toast("Transaction for Meal $transactionCount has been done");
+      toast("Check-in/out Successful");
     } catch (e) {
       print(e);
     }
@@ -186,6 +179,10 @@ class _ScanEmployeeMealOfflineScreenState
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
                       ),
+                      // onPressed: () async {
+                      //   var data = await readJsonFile();
+                      //   dev.log(jsonEncode(data));
+                      // },
                       onPressed: onSubmit,
                       child: const Text(
                         'Search',
@@ -203,7 +200,7 @@ class _ScanEmployeeMealOfflineScreenState
     );
   }
 
-  void onSubmit() async {
+  onSubmit() async {
     qrTextFocus.unfocus();
 
     if (qrTextController.text.isEmpty) {
@@ -211,53 +208,18 @@ class _ScanEmployeeMealOfflineScreenState
       return;
     }
 
+    String currentDate = DateTime.now().toIso8601String();
     String? deviceId = await AppPreferences.getImei();
 
-    String employeeCode = qrTextController.text.trim();
-    String currentDate = DateTime.now().toIso8601String();
+    await writeJsonFile(<String, dynamic>{
+      'employeeCode': qrTextController.text.trim(),
+      'timestamp': currentDate,
+      'IMEI': deviceId
+    });
 
-    int transactionCount = await countTransactions(employeeCode, currentDate);
+    var data = await readJsonFile();
+    dev.log(jsonEncode(data));
 
-    if (transactionCount < 3) {
-      await writeJsonFile({
-        'employeeCode': employeeCode,
-        'date': currentDate,
-        'IMEI': deviceId
-      });
-
-      var data = await readJsonFile();
-      dev.log(jsonEncode(data));
-
-      qrTextController.clear();
-    } else {
-      toast(
-        "Transaction limit reached for today",
-        bgColor: Colors.redAccent[100],
-        textColor: Colors.white,
-      );
-    }
-  }
-
-  Future<int> countTransactions(String employeeCode, String date) async {
-    final List<dynamic> transactions = await readJsonFile();
-
-    int count = 0;
-    for (var transaction in transactions) {
-      if (transaction['employeeCode'] == employeeCode &&
-          isSameDate(transaction['date'], date)) {
-        count++;
-      }
-    }
-
-    return count;
-  }
-
-  bool isSameDate(String date1, String date2) {
-    DateTime dateTime1 = DateTime.parse(date1);
-    DateTime dateTime2 = DateTime.parse(date2);
-
-    return dateTime1.year == dateTime2.year &&
-        dateTime1.month == dateTime2.month &&
-        dateTime1.day == dateTime2.day;
+    qrTextController.clear();
   }
 }

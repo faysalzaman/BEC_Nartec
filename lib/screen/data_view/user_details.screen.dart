@@ -63,31 +63,31 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Hero(
-                      tag: widget.employees.id!,
-                      child: Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2, // Set the border width
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 8,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
+                    Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2, // Set the border width
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 8,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Hero(
+                        tag: widget.employees.id.toString(),
                         child: ClipOval(
                           child: CachedNetworkImage(
                             imageUrl: widget.employees.profilePicture == null
                                 ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
-                                : "${AppUrls.baseUrl}${widget.employees.profilePicture?.replaceAll("\\", "/")}",
+                                : "${AppUrls.baseUrl}/${widget.employees.profilePicture?.replaceAll("\\", "/").replaceAll("//", "/")}",
                             fit: BoxFit.cover,
                           ),
                         ),
