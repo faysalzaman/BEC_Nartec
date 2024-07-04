@@ -1,5 +1,5 @@
+import 'package:bec_app/screen/login/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:bec_app/screen/mode_selection_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 3), () {
       AppNavigator.replaceTo(
         context: context,
-        screen: ModeSelectionScreen(),
+        screen: const LoginScreen(),
       );
     });
   }
