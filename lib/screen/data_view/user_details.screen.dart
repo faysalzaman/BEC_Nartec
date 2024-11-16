@@ -5,7 +5,6 @@ import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
@@ -19,6 +18,14 @@ class UserDetailsScreen extends StatefulWidget {
 }
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    print(widget.employees.employeeCode);
+    print(widget.employees.username);
+    print(widget.employees.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

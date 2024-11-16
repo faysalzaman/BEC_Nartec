@@ -19,14 +19,20 @@ class AttendanceController {
       'Authorization': 'Bearer $token',
     };
 
+    print(headers);
+
     String date = DateTime.now().toString();
 
     final body =
         jsonEncode({"employeeId": id, "timestamp": date, "IMEI": deviceId});
 
+    print(body);
+
     final response = await http.post(url, headers: headers, body: body);
 
     var data = json.decode(response.body);
+    print(data);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       return ImeiModel.fromJson(data);
     } else {
@@ -48,6 +54,8 @@ class AttendanceController {
     final response = await http.get(url, headers: headers);
 
     var info = json.decode(response.body)['attendanceRecords'] as List;
+
+    print(info);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return info.map((e) => AttendanceModel.fromJson(e)).toList();

@@ -20,6 +20,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       ImeiModel data = await AttendanceController.attendanceIn(id);
       emit(AttendanceInSuccess(data));
     } catch (e) {
+      print(e);
       emit(AttendanceInError(e.toString()));
     }
   }
@@ -41,6 +42,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
       }
       emit(AttendanceSuccess(response));
     } catch (e) {
+      print(e);
       emit(AttendanceError(e.toString()));
     }
   }
