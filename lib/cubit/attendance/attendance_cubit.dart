@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AttendanceCubit extends Cubit<AttendanceState> {
   AttendanceCubit() : super(AttendanceInitial());
 
-  void attendanceIn(String id) async {
+  void attendanceIn(String id, String action) async {
     emit(AttendanceInLoading());
     try {
       bool networkStatus = await Network.check();
@@ -17,7 +17,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
         return;
       }
 
-      ImeiModel data = await AttendanceController.attendanceIn(id);
+      ImeiModel data = await AttendanceController.attendanceIn(id, action);
       emit(AttendanceInSuccess(data));
     } catch (e) {
       print(e);

@@ -155,7 +155,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
               ),
               KeyValueInfoWidget(
                 keyy: 'Location',
-                value: widget.employees.location ?? "null",
+                value: widget.employees.location?.name ?? "null",
               ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),

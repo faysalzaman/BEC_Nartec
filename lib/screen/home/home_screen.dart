@@ -1,7 +1,7 @@
 import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/screen/data_view/users_screen.dart';
 import 'package:bec_app/screen/meal_transaction/scan_employee_meal_screen.dart';
-import 'package:bec_app/screen/time_and_attendance/scan_employee_attendance_screen.dart';
+import 'package:bec_app/screen/time_and_attendance/check_in_out_selection_screen.dart';
 import 'package:bec_app/screen/time_attendance_history/scan_employee_attendance_history.dart';
 import 'package:bec_app/screen/transaction_history/scan_transaction_history_screen.dart';
 import 'package:bec_app/utils/app_navigator.dart';
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen>
                         } else {
                           AppNavigator.goToPage(
                             context: context,
-                            screen: const ScanEmployeeAttendanceScreen(),
+                            screen: const CheckInOutSelectionScreen(),
                           );
                         }
                       },

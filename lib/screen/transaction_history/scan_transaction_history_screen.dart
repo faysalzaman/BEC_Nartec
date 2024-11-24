@@ -17,7 +17,8 @@ class ScanTransactionHistoryScreen extends StatefulWidget {
 }
 
 class _ScanTransactionHistoryScreenState
-    extends State<ScanTransactionHistoryScreen> {
+    extends State<ScanTransactionHistoryScreen>
+    with SingleTickerProviderStateMixin {
   TextEditingController qrTextController = TextEditingController();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
@@ -27,6 +28,25 @@ class _ScanTransactionHistoryScreenState
   FocusNode endDateFocus = FocusNode();
 
   EmployeeCubit employeeCubit = EmployeeCubit();
+
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 0.9, end: 1.1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -85,10 +105,13 @@ class _ScanTransactionHistoryScreenState
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/images/qr_code.png',
-                      width: context.width() * 0.2,
-                      height: context.height() * 0.1,
+                    child: ScaleTransition(
+                      scale: _animation,
+                      child: Image.asset(
+                        'assets/images/qr_code.png',
+                        width: context.width() * 0.2,
+                        height: context.height() * 0.1,
+                      ),
                     ),
                   ),
                   20.height,

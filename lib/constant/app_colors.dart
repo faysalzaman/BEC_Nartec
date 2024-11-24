@@ -6,7 +6,7 @@ abstract class AppColors {
   static const Color fields = Color.fromRGBO(236, 244, 249, 1);
   static const Color success = Color.fromRGBO(34, 139, 34, 1);
 
-  static const Color background = Color.fromRGBO(255, 255, 249, 1);
+  static const Color background = Color.fromRGBO(254, 254, 254, 1);
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
   static const Color danger = Color.fromRGBO(255, 0, 0, 1);

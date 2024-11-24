@@ -1,11 +1,36 @@
 // ignore_for_file: file_names
 
+class Location {
+  int? id;
+  String? name;
+  String? createdAt;
+  String? updatedAt;
+
+  Location({this.id, this.name, this.createdAt, this.updatedAt});
+
+  Location.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    return data;
+  }
+}
+
 class EmployeeModel {
   int? id;
   String? name;
   String? username;
   String? password;
-  String? location;
+  Location? location;
   String? employeeCode;
   String? profilePicture;
   String? nationality;
@@ -40,7 +65,8 @@ class EmployeeModel {
     name = json['name'];
     username = json['username'];
     password = json['password'];
-    location = json['location'];
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     employeeCode = json['employeeCode'];
     profilePicture = json['profilePicture'];
     nationality = json['nationality'];
@@ -59,7 +85,9 @@ class EmployeeModel {
     data['name'] = name;
     data['username'] = username;
     data['password'] = password;
-    data['location'] = location;
+    if (location != null) {
+      data['location'] = location!.toJson();
+    }
     data['employeeCode'] = employeeCode;
     data['profilePicture'] = profilePicture;
     data['nationality'] = nationality;

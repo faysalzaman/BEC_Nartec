@@ -19,12 +19,32 @@ class ScanEmployeeMealScreen extends StatefulWidget {
   State<ScanEmployeeMealScreen> createState() => _ScanEmployeeMealScreenState();
 }
 
-class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
+class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen>
+    with SingleTickerProviderStateMixin {
   TextEditingController qrTextController = TextEditingController();
   FocusNode qrTextFocus = FocusNode();
 
   EmployeeCubit employeeCubit = EmployeeCubit();
   TransactionCubit transactionCubit = TransactionCubit();
+
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 0.9, end: 1.1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -73,10 +93,13 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen> {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/images/qr_code.png',
-                      width: context.width() * 0.2,
-                      height: context.height() * 0.1,
+                    child: ScaleTransition(
+                      scale: _animation,
+                      child: Image.asset(
+                        'assets/images/qr_code.png',
+                        width: context.width() * 0.2,
+                        height: context.height() * 0.1,
+                      ),
                     ),
                   ),
                   20.height,

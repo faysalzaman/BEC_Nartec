@@ -8,7 +8,10 @@ import 'package:bec_app/model/attendance/ImeiModel.dart';
 import 'package:http/http.dart' as http;
 
 class AttendanceController {
-  static Future<ImeiModel> attendanceIn(String id) async {
+  static Future<ImeiModel> attendanceIn(
+    String id,
+    String action,
+  ) async {
     String? token = await AppPreferences.getToken();
     String? deviceId = await AppPreferences.getImei();
 
@@ -23,8 +26,12 @@ class AttendanceController {
 
     String date = DateTime.now().toString();
 
-    final body =
-        jsonEncode({"employeeId": id, "timestamp": date, "IMEI": deviceId});
+    final body = jsonEncode({
+      "employeeId": id,
+      "timestamp": date,
+      "IMEI": deviceId,
+      "action": action
+    });
 
     print(body);
 

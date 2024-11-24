@@ -19,17 +19,13 @@ class LoginCubit extends Cubit<LoginState> {
 
       LoginModel response = await AuthController.login(email, password);
 
-      AppPreferences.setToken(response.token!).then((value) {});
-      AppPreferences.setUserId(response.adminUser!.id.toString())
-          .then((value) {});
-      AppPreferences.setEmail(response.adminUser!.email.toString())
-          .then((value) {});
-      AppPreferences.setName(response.adminUser!.name.toString())
-          .then((value) {});
+      await AppPreferences.setToken(response.token!);
+      await AppPreferences.setUserId(response.adminUser!.id.toString());
+      await AppPreferences.setEmail(response.adminUser!.email.toString());
+      await AppPreferences.setName(response.adminUser!.name.toString());
 
       emit(LoginSuccess(response));
     } catch (e) {
-      print(e);
       emit(LoginError(e.toString()));
     }
   }
