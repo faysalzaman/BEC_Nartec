@@ -14,7 +14,15 @@ import 'package:nb_utils/nb_utils.dart';
 class ScanEmployeeAttendanceScreen extends StatefulWidget {
   final bool checkIn;
 
-  const ScanEmployeeAttendanceScreen({super.key, required this.checkIn});
+  final String? wps;
+  final String? costCode;
+
+  const ScanEmployeeAttendanceScreen({
+    super.key,
+    required this.checkIn,
+    this.wps,
+    this.costCode,
+  });
 
   @override
   State<ScanEmployeeAttendanceScreen> createState() =>
@@ -37,6 +45,10 @@ class _ScanEmployeeAttendanceScreenState
 
   @override
   void initState() {
+    print(widget.checkIn);
+    print(widget.costCode);
+    print(widget.wps);
+
     super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
@@ -84,11 +96,15 @@ class _ScanEmployeeAttendanceScreenState
                   attendanceCubit.attendanceIn(
                     state.employee.id.toString(),
                     "checkin",
+                    widget.wps,
+                    widget.costCode,
                   );
                 } else {
                   attendanceCubit.attendanceIn(
                     state.employee.id.toString(),
                     "checkout",
+                    widget.wps,
+                    widget.costCode,
                   );
                 }
                 qrTextController.clear();
