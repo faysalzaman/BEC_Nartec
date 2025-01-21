@@ -5,7 +5,6 @@ import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/cubit/transaction/transaction_cubit.dart';
 import 'package:bec_app/cubit/transaction/transaction_state.dart';
 import 'package:bec_app/model/attendance/ImeiModel2.dart';
-import 'package:bec_app/screen/data_view/user_details.screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
@@ -185,84 +184,166 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen>
                       );
                     },
                   ),
+                  10.height,
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Visibility(
                       visible: data.transaction?.employee?.employeeCode
                               ?.toString()
                               .isNotEmpty ??
                           false,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          20.height,
-                          Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                width: 100,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 2, // Set the border width
-                                  ),
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      "${AppUrls.baseUrl}${data.transaction?.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.image_outlined),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withOpacity(0.1),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
                                 ),
                               ),
-                              10.width,
-                              Text("Emp Code: " +
-                                  "${data.transaction?.employee?.employeeCode?.toString() ?? "null"}"),
-                            ],
-                          ),
-                          10.height,
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, top: 10, bottom: 10),
-                            child: Text(
-                              "${data.message}",
-                              style: const TextStyle(
-                                color: AppColors.primary,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 80,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: AppColors.primary,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(6),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "${AppUrls.baseUrl}${data.transaction?.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
+                                        fit: BoxFit.cover,
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(
+                                          Icons.person,
+                                          size: 40,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  16.width,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data.transaction?.employee?.name ??
+                                              "N/A",
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.primary,
+                                          ),
+                                        ),
+                                        4.height,
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primary,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            "ID: ${data.transaction?.employee?.employeeCode ?? "N/A"}",
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          KeyValueInfoWidget(
-                            keyy: 'Name',
-                            value: data.transaction?.employee?.name ?? "null",
-                          ),
-                          KeyValueInfoWidget(
-                            keyy: 'Company',
-                            value: data.transaction?.employee?.companyName ??
-                                "null",
-                          ),
-                          KeyValueInfoWidget(
-                            keyy: 'Job Title',
-                            value:
-                                data.transaction?.employee?.jobTitle ?? "null",
-                          ),
-                          KeyValueInfoWidget(
-                            keyy: 'Room Number',
-                            value: data.transaction?.employee?.roomNumber ??
-                                "null",
-                          ),
-                          KeyValueInfoWidget(
-                            keyy: 'Category',
-                            value:
-                                data.transaction?.employee?.jobTitle ?? "null",
-                          ),
-                          10.height,
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                children: [
+                                  _buildInfoRow(
+                                    icon: Icons.business,
+                                    label: 'Company',
+                                    value: data.transaction?.employee
+                                            ?.companyName ??
+                                        "N/A",
+                                  ),
+                                  _buildInfoRow(
+                                    icon: Icons.work,
+                                    label: 'Job Title',
+                                    value:
+                                        data.transaction?.employee?.jobTitle ??
+                                            "N/A",
+                                  ),
+                                  _buildInfoRow(
+                                    icon: Icons.room,
+                                    label: 'Room Number',
+                                    value: data.transaction?.employee
+                                            ?.roomNumber ??
+                                        "N/A",
+                                  ),
+                                  _buildInfoRow(
+                                    icon: Icons.category,
+                                    label: 'Category',
+                                    value:
+                                        data.transaction?.employee?.jobTitle ??
+                                            "N/A",
+                                  ),
+                                  12.height,
+                                  Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.info_outline,
+                                            color: AppColors.primary, size: 18),
+                                        8.width,
+                                        Expanded(
+                                          child: Text(
+                                            data.message ?? "",
+                                            style: const TextStyle(
+                                              color: AppColors.primary,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -271,6 +352,41 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen>
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildInfoRow({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: AppColors.primary),
+          8.width,
+          SizedBox(
+            width: 80,
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -28,8 +28,10 @@ class TransactionController {
       'employeeId': empId,
       'date': date,
       "IMEI": deviceId,
-      "adminId": adminId,
+      "adminId": adminId ?? 0,
     });
+
+    print(body);
 
     final response = await http.post(url, headers: headers, body: body);
 

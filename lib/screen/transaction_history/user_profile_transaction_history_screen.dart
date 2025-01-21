@@ -63,146 +63,150 @@ class _UserProfileTransactionHistoryScreenState
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Card(
-                color: Colors.white,
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: AppColors.primary.withOpacity(0.1),
-                        radius: 25,
-                        child: Text(
-                          widget.employee.name![0].toUpperCase(),
-                          style: const TextStyle(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Card(
+                  color: Colors.white,
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: AppColors.primary.withOpacity(0.1),
+                          radius: 25,
+                          child: Text(
+                            widget.employee.name![0].toUpperCase(),
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.employee.name ?? '',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "ID: ${widget.employee.id}",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  color: Colors.white,
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.employee.name ?? '',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "ID: ${widget.employee.id}",
+                              "From",
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 12,
                               ),
                             ),
+                            Text(
+                              widget.startDate,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                color: Colors.white,
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "From",
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 12,
+                        Icon(Icons.arrow_forward, color: Colors.grey[400]),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "To",
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                          Text(
-                            widget.startDate,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                            Text(
+                              widget.endDate,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Icon(Icons.arrow_forward, color: Colors.grey[400]),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "To",
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            widget.endDate,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: BlocConsumer<TransactionCubit, TransactionState>(
-                  bloc: transactionCubit,
-                  listener: (context, state) {
-                    if (state is TransactionHistoryError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("No Transaction Record"),
-                          backgroundColor: Colors.red,
+                          ],
                         ),
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is TransactionHistoryLoading) {
-                      return _buildShimmerLoading();
-                    }
-                    if (state is TransactionHistoryError) {
-                      return _buildErrorState();
-                    }
-                    if (state is TransactionHistorySuccess) {
-                      return TransactionCard(
-                        transaction: state.data.transaction!,
-                      );
-                    }
-                    return _buildEmptyState();
-                  },
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                SizedBox(
+                  child: BlocConsumer<TransactionCubit, TransactionState>(
+                    bloc: transactionCubit,
+                    listener: (context, state) {
+                      if (state is TransactionHistoryError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("No Transaction Record"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is TransactionHistoryLoading) {
+                        return _buildShimmerLoading();
+                      }
+                      if (state is TransactionHistoryError) {
+                        return _buildErrorState();
+                      }
+                      if (state is TransactionHistorySuccess) {
+                        return TransactionCard(
+                          transaction: state.data.transaction!,
+                        );
+                      }
+                      return _buildEmptyState();
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),

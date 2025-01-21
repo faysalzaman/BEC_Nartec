@@ -131,7 +131,7 @@ class _ScanEmployeeAttendanceScreenState
                 toast(state.error
                     .toString()
                     .replaceAll("Exception:", "")
-                    .replaceAll("Exception", "Something went wrong"));
+                    .replaceAll("Exception", ""));
               }
               if (state is AttendanceInSuccess) {
                 setState(() {

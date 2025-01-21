@@ -31,7 +31,7 @@ class AttendanceController {
 
     String date = DateTime.now().toString();
 
-    final body = wps == null || costCode == null
+    final body = wps == null || costCode == null || adminId == null
         ? jsonEncode({
             "employeeId": id,
             "timestamp": date,
@@ -51,11 +51,14 @@ class AttendanceController {
     final response = await http.post(url, headers: headers, body: body);
 
     var data = json.decode(response.body);
+    print(data);
+    print(response.body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return ImeiModel.fromJson(data);
     } else {
       final msg = data['message'];
+      print(msg);
       throw Exception(msg);
     }
   }
@@ -73,8 +76,6 @@ class AttendanceController {
     final response = await http.get(url, headers: headers);
 
     var info = json.decode(response.body)['attendanceRecords'] as List;
-
-    print(info);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return info.map((e) => AttendanceModel.fromJson(e)).toList();
