@@ -6,7 +6,12 @@ class Location {
   String? createdAt;
   String? updatedAt;
 
-  Location({this.id, this.name, this.createdAt, this.updatedAt});
+  Location({
+    this.id,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   Location.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,8 +44,11 @@ class EmployeeModel {
   String? employmentType;
   String? jobTitle;
   String? roomNumber;
+  String? costCode;
+  String? wps;
   String? createdAt;
   String? updatedAt;
+  int? adminId;
 
   EmployeeModel({
     this.id,
@@ -56,8 +64,11 @@ class EmployeeModel {
     this.employmentType,
     this.jobTitle,
     this.roomNumber,
+    this.costCode,
+    this.wps,
     this.createdAt,
     this.updatedAt,
+    this.adminId,
   });
 
   EmployeeModel.fromJson(Map<String, dynamic> json) {
@@ -75,8 +86,11 @@ class EmployeeModel {
     employmentType = json['employmentType'];
     jobTitle = json['jobTitle'];
     roomNumber = json['roomNumber'];
+    costCode = json['costCode'];
+    wps = json['wps'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+    adminId = json['adminId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -96,8 +110,11 @@ class EmployeeModel {
     data['employmentType'] = employmentType;
     data['jobTitle'] = jobTitle;
     data['roomNumber'] = roomNumber;
+    data['costCode'] = costCode;
+    data['wps'] = wps;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
+    data['adminId'] = adminId;
     return data;
   }
 }

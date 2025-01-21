@@ -7,7 +7,10 @@ import 'package:bec_app/model/transaction/TransactionHistoryModel.dart';
 import 'package:http/http.dart' as http;
 
 class TransactionController {
-  static Future<ImeiModel2> transaction(String empId) async {
+  static Future<ImeiModel2> transaction(
+    String empId,
+    int? adminId,
+  ) async {
     final url = Uri.parse('${AppUrls.baseUrl}/api/transactions');
 
     String? token = await AppPreferences.getToken();
@@ -21,8 +24,12 @@ class TransactionController {
     // 2024-05-18 this format
     String date = DateTime.now().toString().substring(0, 10);
 
-    final body =
-        jsonEncode({'employeeId': empId, 'date': date, "IMEI": deviceId});
+    final body = jsonEncode({
+      'employeeId': empId,
+      'date': date,
+      "IMEI": deviceId,
+      "adminId": adminId,
+    });
 
     final response = await http.post(url, headers: headers, body: body);
 
@@ -44,8 +51,7 @@ class TransactionController {
     String? token = await AppPreferences.getToken();
 
     final url = Uri.parse(
-      '${AppUrls.baseUrl}/api/transactions/fetchMealsByEmployeeId/$id?startDate=$startDate&endDate=$endDate',
-    );
+        '${AppUrls.baseUrl}/api/transactions/fetchMealsByEmployeeId/$id?startDate=$startDate&endDate=$endDate');
 
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -55,6 +61,8 @@ class TransactionController {
     final response = await http.get(url, headers: headers);
 
     var res = json.decode(response.body);
+
+    print(res);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return TransactionHistoryModel.fromJson(res);

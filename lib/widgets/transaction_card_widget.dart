@@ -21,6 +21,10 @@ class TransactionCard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
             shadowColor: Colors.grey[300],
             elevation: 5,
             child: Padding(
@@ -51,16 +55,29 @@ class TransactionCard extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: Text(label, style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
+            ),
           ),
           Expanded(
             flex: 3,
             child: Text(
               value.toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: AppColors.primary),
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primary,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
             ),
           ),
         ],

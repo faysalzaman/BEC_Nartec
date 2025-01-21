@@ -70,7 +70,10 @@ class _ScanEmployeeMealScreenState extends State<ScanEmployeeMealScreen>
         bloc: employeeCubit,
         listener: (context, state) {
           if (state is EmployeeByIdSuccess) {
-            transactionCubit.transaction(state.employee.id.toString());
+            transactionCubit.transaction(
+              state.employee.id.toString(),
+              state.employee.adminId,
+            );
             qrTextController.clear();
           }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AttendanceHistory extends StatelessWidget {
-  AttendanceHistory({
+  const AttendanceHistory({
     super.key,
     required this.totalTimePerDay,
   });

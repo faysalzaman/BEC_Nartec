@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:bec_app/cubit/employee/employee_cubit.dart';
 import 'package:bec_app/cubit/employee/employee_state.dart';
 import 'package:bec_app/constant/app_colors.dart';

@@ -98,6 +98,7 @@ class _ScanEmployeeAttendanceScreenState
                     "checkin",
                     widget.wps,
                     widget.costCode,
+                    state.employee.adminId,
                   );
                 } else {
                   attendanceCubit.attendanceIn(
@@ -105,6 +106,7 @@ class _ScanEmployeeAttendanceScreenState
                     "checkout",
                     widget.wps,
                     widget.costCode,
+                    state.employee.adminId,
                   );
                 }
                 qrTextController.clear();

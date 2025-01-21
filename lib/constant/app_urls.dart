@@ -9,4 +9,7 @@ abstract class AppUrls {
 
   static const String baseUrl = "http://gs1Ksa.org:5050";
   static const String host = "gs1Ksa.org:5050";
+
+  // static const String baseUrl = "https://portal.becarabia.com:5999";
+  // static const String host = "portal.becarabia.com:5999";
 }

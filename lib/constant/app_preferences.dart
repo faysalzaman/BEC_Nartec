@@ -7,6 +7,12 @@ class AppPreferences {
     prefs.setString('id', userId);
   }
 
+  /* set adminId */
+  static Future<void> setAdminId(String adminId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('adminId', adminId);
+  }
+
   /* set gpc */
   static Future<void> setEmail(String email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -37,6 +43,12 @@ class AppPreferences {
   static Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('id');
+  }
+
+  /* get adminId */
+  static Future<String?> getAdminId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('adminId');
   }
 
   /* get email */

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/model/login/LoginModel.dart';
@@ -8,7 +10,7 @@ class AuthController {
     final url = Uri.parse('${AppUrls.baseUrl}/api/admin/login');
     final headers = <String, String>{'Content-Type': 'application/json'};
 
-    final body = json.encode({'email': email, 'password': password});
+    final body = json.encode({'userId': email, 'password': password});
 
     final response = await http.post(url, headers: headers, body: body);
 

@@ -74,6 +74,11 @@ class _CheckInOutSelectionScreenState extends State<CheckInOutSelectionScreen>
           ),
           child: SearchableDropdown.single(
             menuBackgroundColor: Colors.white,
+            dialogBox: false,
+            menuConstraints: BoxConstraints.loose(Size(
+              MediaQuery.of(context).size.width * 0.9,
+              MediaQuery.of(context).size.height * 0.4,
+            )),
             items: locationList.isNotEmpty
                 ? locationList.map((String value) {
                     return DropdownMenuItem<String>(
@@ -119,7 +124,7 @@ class _CheckInOutSelectionScreenState extends State<CheckInOutSelectionScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Select WPS", style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text("Select WBS", style: TextStyle(fontWeight: FontWeight.bold)),
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
@@ -129,6 +134,11 @@ class _CheckInOutSelectionScreenState extends State<CheckInOutSelectionScreen>
           ),
           child: SearchableDropdown.single(
             menuBackgroundColor: Colors.white,
+            dialogBox: false,
+            menuConstraints: BoxConstraints.loose(Size(
+              MediaQuery.of(context).size.width * 0.9,
+              MediaQuery.of(context).size.height * 0.4,
+            )),
             items: wpsOptions.isNotEmpty
                 ? wpsOptions.map((String value) {
                     return DropdownMenuItem<String>(
@@ -141,8 +151,8 @@ class _CheckInOutSelectionScreenState extends State<CheckInOutSelectionScreen>
                         value: null, child: Text('null'))
                   ],
             value: selectedWps,
-            hint: const Text('Select WPS'),
-            searchHint: const Text('Search WPS'),
+            hint: const Text('Select WBS'),
+            searchHint: const Text('Search WBS'),
             isExpanded: true,
             onChanged: (String? newValue) {
               setState(() {
@@ -171,6 +181,11 @@ class _CheckInOutSelectionScreenState extends State<CheckInOutSelectionScreen>
           ),
           child: SearchableDropdown.single(
             menuBackgroundColor: Colors.white,
+            dialogBox: false,
+            menuConstraints: BoxConstraints.loose(Size(
+              MediaQuery.of(context).size.width * 0.9,
+              MediaQuery.of(context).size.height * 0.4,
+            )),
             items: costCodeOptions.isNotEmpty
                 ? costCodeOptions.map((String value) {
                     return DropdownMenuItem<String>(
@@ -305,9 +320,9 @@ class _CheckInOutSelectionScreenState extends State<CheckInOutSelectionScreen>
                         const SizedBox(height: 15),
 
                         if (selectedLocation != null) ...[
-                          _buildWpsDropdown(),
-                          const SizedBox(height: 15),
                           _buildCostCodeDropdown(),
+                          const SizedBox(height: 15),
+                          _buildWpsDropdown(),
                         ],
                       ],
 

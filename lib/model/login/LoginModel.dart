@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 class LoginModel {
   bool? success;
@@ -29,21 +29,37 @@ class LoginModel {
 class AdminUser {
   int? id;
   String? email;
+  String? userId;
   String? name;
+  int? is_super_admin;
+  int? locationId;
 
-  AdminUser({this.id, this.email, this.name});
+  AdminUser({
+    this.id,
+    this.email,
+    this.userId,
+    this.name,
+    this.is_super_admin,
+    this.locationId,
+  });
 
   AdminUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
+    userId = json['userId'];
     name = json['name'];
+    is_super_admin = json['is_super_admin'];
+    locationId = json['locationId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['email'] = email;
+    data['userId'] = userId;
     data['name'] = name;
+    data['is_super_admin'] = is_super_admin;
+    data['locationId'] = locationId;
     return data;
   }
 }

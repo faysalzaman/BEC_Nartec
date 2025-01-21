@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit() : super(TransactionInitial());
 
-  void transaction(String empId) async {
+  void transaction(String empId, int? adminId) async {
     emit(TransactionLoading());
     try {
       bool networkStatus = await Network.check();
@@ -15,7 +15,10 @@ class TransactionCubit extends Cubit<TransactionState> {
         emit(TransactionError('No internet connection'));
         return;
       }
-      ImeiModel2 data = await TransactionController.transaction(empId);
+      ImeiModel2 data = await TransactionController.transaction(
+        empId,
+        adminId,
+      );
       emit(TransactionSuccess(data));
     } catch (e) {
       emit(TransactionError(e.toString()));

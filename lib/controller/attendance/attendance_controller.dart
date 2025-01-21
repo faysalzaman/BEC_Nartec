@@ -15,6 +15,7 @@ class AttendanceController {
     String action,
     String? wps,
     String? costCode,
+    int? adminId,
   ) async {
     String? token = await AppPreferences.getToken();
     String? deviceId = await AppPreferences.getImei();
@@ -44,6 +45,7 @@ class AttendanceController {
             "action": action,
             "wps": wps,
             "costCode": costCode,
+            "adminId": adminId
           });
 
     final response = await http.post(url, headers: headers, body: body);
@@ -72,6 +74,8 @@ class AttendanceController {
 
     var info = json.decode(response.body)['attendanceRecords'] as List;
 
+    print(info);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       return info.map((e) => AttendanceModel.fromJson(e)).toList();
     } else {
@@ -81,12 +85,12 @@ class AttendanceController {
   }
 
   // get costCode
-  static Future<List<WpsModel>> getCostCode(int locationId) async {
-    final url =
-        Uri.parse('${AppUrls.baseUrl}/api/costCodes?locationId=$locationId');
+  static Future<List<WpsModel>> getCostCode() async {
+    final url = Uri.parse('${AppUrls.baseUrl}/api/costCodes');
 
     final response = await http.get(url);
 
+    print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       var info = json.decode(response.body)['costCodes'] as List;
 

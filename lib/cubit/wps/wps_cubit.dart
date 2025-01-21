@@ -32,8 +32,7 @@ class WpsCubit extends Cubit<WpsState> {
       }
 
       List<WpsModel> response1 = await AttendanceController.getWps(locationId);
-      List<WpsModel> response2 =
-          await AttendanceController.getCostCode(locationId);
+      List<WpsModel> response2 = await AttendanceController.getCostCode();
 
       emit(WpsSuccess(response1)); // Updated state emission
       emit(CostCodeSuccess(response2));

@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),
-                        hintText: 'Username',
+                        hintText: 'User ID',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
@@ -211,7 +211,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           : const Text(
                               'Login',
                               style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                     ),
                   ),
