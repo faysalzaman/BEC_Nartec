@@ -20,7 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
       LoginModel response = await AuthController.login(email, password);
 
       await AppPreferences.setToken(response.token!);
-      await AppPreferences.setUserId(response.adminUser!.userId.toString());
+      await AppPreferences.setUserId(response.adminUser!.id!);
       await AppPreferences.setEmail(response.adminUser!.email.toString());
       await AppPreferences.setName(response.adminUser!.name.toString());
 

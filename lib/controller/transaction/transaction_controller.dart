@@ -7,14 +7,12 @@ import 'package:bec_app/model/transaction/TransactionHistoryModel.dart';
 import 'package:http/http.dart' as http;
 
 class TransactionController {
-  static Future<ImeiModel2> transaction(
-    String empId,
-    int? adminId,
-  ) async {
+  static Future<ImeiModel2> transaction(String empId) async {
     final url = Uri.parse('${AppUrls.baseUrl}/api/transactions');
 
     String? token = await AppPreferences.getToken();
     String? deviceId = await AppPreferences.getImei();
+    int? adminId = await AppPreferences.getUserId();
 
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -28,7 +26,7 @@ class TransactionController {
       'employeeId': empId,
       'date': date,
       "IMEI": deviceId,
-      "adminId": adminId ?? 0,
+      "adminId": adminId,
     });
 
     print(body);

@@ -11,14 +11,11 @@ import 'package:http/http.dart' as http;
 
 class AttendanceController {
   static Future<ImeiModel> attendanceIn(
-    String id,
-    String action,
-    String? wps,
-    String? costCode,
-    int? adminId,
-  ) async {
+      String id, String action, String? wps, String? costCode) async {
     String? token = await AppPreferences.getToken();
     String? deviceId = await AppPreferences.getImei();
+
+    int? adminId = await AppPreferences.getUserId();
 
     final url = Uri.parse('${AppUrls.baseUrl}/api/attendance');
 
@@ -31,7 +28,7 @@ class AttendanceController {
 
     String date = DateTime.now().toString();
 
-    final body = wps == null || costCode == null || adminId == null
+    final body = wps == null && costCode == null
         ? jsonEncode({
             "employeeId": id,
             "timestamp": date,
@@ -47,6 +44,8 @@ class AttendanceController {
             "costCode": costCode,
             "adminId": adminId
           });
+
+    print(body);
 
     final response = await http.post(url, headers: headers, body: body);
 

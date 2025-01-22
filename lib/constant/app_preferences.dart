@@ -2,15 +2,15 @@ import 'package:nb_utils/nb_utils.dart';
 
 class AppPreferences {
   /*  Set user id  */
-  static Future<void> setUserId(String userId) async {
+  static Future<void> setUserId(int userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('id', userId);
+    prefs.setInt('id', userId);
   }
 
   /* set adminId */
-  static Future<void> setAdminId(String adminId) async {
+  static Future<void> setAdminId(int adminId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('adminId', adminId);
+    prefs.setInt('adminId', adminId);
   }
 
   /* set gpc */
@@ -40,15 +40,15 @@ class AppPreferences {
   // Getters
 
   /*  Get user id  */
-  static Future<String?> getUserId() async {
+  static Future<int?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('id');
+    return prefs.getInt('id');
   }
 
   /* get adminId */
-  static Future<String?> getAdminId() async {
+  static Future<int?> getAdminId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('adminId');
+    return prefs.getInt('adminId');
   }
 
   /* get email */
