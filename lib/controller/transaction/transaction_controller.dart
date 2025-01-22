@@ -62,8 +62,6 @@ class TransactionController {
 
     var res = json.decode(response.body);
 
-    print(res);
-
     if (response.statusCode == 200 || response.statusCode == 201) {
       return TransactionHistoryModel.fromJson(res);
     } else {

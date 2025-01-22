@@ -1,8 +1,10 @@
 import 'package:bec_app/constant/app_colors.dart';
+import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/cubit/transaction/transaction_cubit.dart';
 import 'package:bec_app/cubit/transaction/transaction_state.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
 import 'package:bec_app/widgets/transaction_card_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -83,12 +85,29 @@ class _UserProfileTransactionHistoryScreenState
                         CircleAvatar(
                           backgroundColor: AppColors.primary.withOpacity(0.1),
                           radius: 25,
-                          child: Text(
-                            widget.employee.name![0].toUpperCase(),
-                            style: const TextStyle(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "${AppUrls.baseUrl}${widget.employee.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) {
+                                return const Icon(
+                                  Icons.person,
+                                  size: 30,
+                                  color: AppColors.primary,
+                                );
+                              },
+                              memCacheWidth: 250,
+                              memCacheHeight: 250,
+                              maxHeightDiskCache: 250,
+                              maxWidthDiskCache: 250,
                             ),
                           ),
                         ),
@@ -214,32 +233,37 @@ class _UserProfileTransactionHistoryScreenState
   }
 
   Widget _buildShimmerLoading() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) => Card(
-          margin: const EdgeInsets.only(bottom: 12.0),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ShimmerBox(width: 120, height: 20),
-                    ShimmerBox(width: 80, height: 20),
-                  ],
-                ),
-                SizedBox(height: 12),
-                ShimmerBox(width: double.infinity, height: 16),
-                SizedBox(height: 8),
-                ShimmerBox(width: 150, height: 16),
-              ],
+    return SizedBox(
+      height: 300,
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 5,
+          itemBuilder: (context, index) => Card(
+            margin: const EdgeInsets.only(bottom: 12.0),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ShimmerBox(width: 120, height: 20),
+                      ShimmerBox(width: 80, height: 20),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  ShimmerBox(width: double.infinity, height: 16),
+                  SizedBox(height: 8),
+                  ShimmerBox(width: 150, height: 16),
+                ],
+              ),
             ),
           ),
         ),

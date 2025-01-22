@@ -463,7 +463,7 @@ class _UserProfileAttendanceHistoryScreenState
 }
 
 class ShimmerRow extends StatelessWidget {
-  const ShimmerRow({Key? key}) : super(key: key);
+  const ShimmerRow({super.key});
 
   @override
   Widget build(BuildContext context) {

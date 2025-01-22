@@ -24,8 +24,6 @@ class AttendanceController {
       'Authorization': 'Bearer $token',
     };
 
-    print(headers);
-
     String date = DateTime.now().toString();
 
     final body = wps == null && costCode == null
@@ -45,13 +43,9 @@ class AttendanceController {
             "adminId": adminId
           });
 
-    print(body);
-
     final response = await http.post(url, headers: headers, body: body);
 
     var data = json.decode(response.body);
-    print(data);
-    print(response.body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return ImeiModel.fromJson(data);

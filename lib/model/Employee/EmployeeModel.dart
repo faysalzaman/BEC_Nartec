@@ -30,6 +30,56 @@ class Location {
   }
 }
 
+class Admin {
+  int? id;
+  String? email;
+  String? userId;
+  String? password;
+  String? name;
+  int? locationId;
+  int? isSuperAdmin;
+  String? createdAt;
+  String? updatedAt;
+
+  Admin({
+    this.id,
+    this.email,
+    this.userId,
+    this.password,
+    this.name,
+    this.locationId,
+    this.isSuperAdmin,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  Admin.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    email = json['email'];
+    userId = json['userId'];
+    password = json['password'];
+    name = json['name'];
+    locationId = json['locationId'];
+    isSuperAdmin = json['is_super_admin'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['userId'] = userId;
+    data['password'] = password;
+    data['name'] = name;
+    data['locationId'] = locationId;
+    data['is_super_admin'] = isSuperAdmin;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    return data;
+  }
+}
+
 class EmployeeModel {
   int? id;
   String? name;
@@ -49,6 +99,8 @@ class EmployeeModel {
   String? createdAt;
   String? updatedAt;
   int? adminId;
+  EmployeeModel? employee;
+  Admin? admin;
 
   EmployeeModel({
     this.id,
@@ -69,6 +121,8 @@ class EmployeeModel {
     this.createdAt,
     this.updatedAt,
     this.adminId,
+    this.employee,
+    this.admin,
   });
 
   EmployeeModel.fromJson(Map<String, dynamic> json) {
@@ -91,6 +145,10 @@ class EmployeeModel {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     adminId = json['adminId'];
+    employee = json['employee'] != null
+        ? EmployeeModel.fromJson(json['employee'])
+        : null;
+    admin = json['admin'] != null ? Admin.fromJson(json['admin']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -115,6 +173,12 @@ class EmployeeModel {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['adminId'] = adminId;
+    if (employee != null) {
+      data['employee'] = employee!.toJson();
+    }
+    if (admin != null) {
+      data['admin'] = admin!.toJson();
+    }
     return data;
   }
 }
