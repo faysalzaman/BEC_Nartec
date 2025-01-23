@@ -50,18 +50,16 @@ class _UsersScreenState extends State<UsersScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-        automaticallyImplyLeading: true,
-        centerTitle: true,
+        elevation: 2,
+        iconTheme: const IconThemeData(color: AppColors.primary),
         title: Text(
-          "Total Employees: ${totalEmp.toString()}",
+          "Employees (${totalEmp.toString()})",
           style: const TextStyle(
-            color: Colors.black,
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        // search button at the last
         actions: [
           IconButton(
             onPressed: () {
@@ -70,7 +68,7 @@ class _UsersScreenState extends State<UsersScreen> {
                 screen: const SearchUsersScreen(),
               );
             },
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search, size: 26),
           ),
         ],
       ),
@@ -102,22 +100,30 @@ class _UsersScreenState extends State<UsersScreen> {
                   CachedNetworkImage(
                     imageUrl:
                         "https://img.freepik.com/free-vector/error-404-concept-illustration_114360-1811.jpg?size=626&ext=jpg",
-                    fit: BoxFit.cover,
+                    height: 200,
+                    fit: BoxFit.contain,
                   ),
-                  20.height,
+                  24.height,
                   const Text(
                     "No Employees Found!",
                     style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
                     ),
                   ),
-                  20.height,
-                  ElevatedButton(
-                    onPressed: () {
-                      employeeCubit.getEmployee();
-                    },
-                    child: const Text("Retry"),
+                  16.height,
+                  ElevatedButton.icon(
+                    onPressed: () => employeeCubit.getEmployee(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    icon: const Icon(Icons.refresh),
+                    label: const Text("Retry", style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),
@@ -127,96 +133,123 @@ class _UsersScreenState extends State<UsersScreen> {
           return SafeArea(
             child: SingleChildScrollView(
               controller: _scrollController,
+              physics: const BouncingScrollPhysics(),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  16.height,
                   ListView.builder(
                     itemCount: employeeCubit.employees.length,
                     shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      final employee = employeeCubit.employees[index];
                       return Container(
-                        width: context.width() * 0.9,
-                        alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
+                            horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
+                              spreadRadius: 1,
+                              blurRadius: 10,
+                              offset: const Offset(0, 2),
                             ),
                           ],
-                          border:
-                              Border.all(color: Colors.grey.withOpacity(0.2)),
                         ),
                         child: ListTile(
-                          contentPadding: const EdgeInsets.all(10),
+                          contentPadding: const EdgeInsets.all(12),
                           title: Text(
-                            employeeCubit.employees[index].name ?? "",
+                            employee.name ?? "",
                             style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
                             ),
                           ),
-                          subtitle: Text(
-                            "Employee Code ${employeeCubit.employees[index].employeeCode!}",
-                            style: const TextStyle(fontSize: 13),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              8.height,
+                              GestureDetector(
+                                onTap: () {
+                                  AppNavigator.goToPage(
+                                    context: context,
+                                    screen:
+                                        UserDetailsScreen(employees: employee),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    "ID: ${employee.employeeCode!}",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           leading: Hero(
-                            tag: employeeCubit.employees[index].id!,
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: employeeCubit
-                                            .employees[index].profilePicture ==
-                                        null
-                                    ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
-                                    // replace all the \\ with / in the profile picture url and put the one / after the base url
-                                    : "${AppUrls.baseUrl}/${employeeCubit.employees[index].profilePicture?.replaceAll("\\", "/").replaceAll("//", "/")}",
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
+                            tag: employee.id!,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: AppColors.primary.withOpacity(0.2),
+                                  width: 2,
+                                ),
+                              ),
+                              child: ClipOval(
+                                child: CachedNetworkImage(
+                                  imageUrl: employee.profilePicture == null
+                                      ? "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671116.jpg?w=740&t=st=1715954816~exp=1715955416~hmac=b32613f5083d999009d81a82df971a4351afdc2a8725f2053bfa1a4af896d072"
+                                      : "${AppUrls.baseUrl}/${employee.profilePicture?.replaceAll("\\", "/").replaceAll("//", "/")}",
+                                  width: 55,
+                                  height: 55,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
                           trailing: GestureDetector(
                             onTap: () {
-                              // move to User Details Page
                               AppNavigator.goToPage(
                                 context: context,
-                                screen: UserDetailsScreen(
-                                    employees: employeeCubit.employees[index]),
+                                screen: UserDetailsScreen(employees: employee),
                               );
                             },
-                            child: Image.asset("assets/images/view.png"),
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                color: AppColors.white.withOpacity(0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.asset(
+                                'assets/images/view.png',
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                           ),
-                          onTap: () {
-                            // AppNavigator.goToPage(
-                            //   context: context,
-                            //   screen: const UsersScreen(id: "1"),
-                            // );
-                          },
                         ),
                       );
                     },
                   ),
-                  20.height,
                   if (state is EmployeeLoadMoreLoading) ...[
+                    20.height,
                     const CircularProgressIndicator(color: AppColors.primary),
-                    10.height,
+                    20.height,
                   ],
-                  // if (state is! EmployeeLoadMoreLoading)
-                  //   ElevatedButton(
-                  //       onPressed: () {
-                  //         employeeCubit.getEmployee(more: true);
-                  //       },
-                  //       child: const Text("Load more")),
                 ],
               ),
             ),

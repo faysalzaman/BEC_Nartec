@@ -114,6 +114,14 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ),
                     ),
                     10.height,
+                    Text(
+                      widget.employees.jobTitle ?? 'N/A',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
