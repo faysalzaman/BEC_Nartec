@@ -3,6 +3,7 @@ import 'package:bec_app/cubit/attendance/attendance_state.dart';
 import 'package:bec_app/constant/app_colors.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
 import 'package:bec_app/model/attendance/AttendanceModel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -68,15 +69,40 @@ class _UserProfileAttendanceHistoryScreenState
                       Row(
                         children: [
                           CircleAvatar(
-                            radius: 30,
                             backgroundColor: AppColors.primary.withOpacity(0.1),
-                            child: Text(
-                              widget.employee.name?[0].toUpperCase() ?? '',
-                              style: const TextStyle(
-                                fontSize: 24,
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            radius: 25,
+                            child: ClipOval(
+                              child:
+                                  widget.employee.getProfilePictureUrl() == null
+                                      ? const Icon(
+                                          Icons.person,
+                                          size: 30,
+                                          color: AppColors.primary,
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl:
+                                              "${widget.employee.getProfilePictureUrl()}",
+                                          width: 50,
+                                          height: 50,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) {
+                                            return const Icon(
+                                              Icons.person,
+                                              size: 30,
+                                              color: AppColors.primary,
+                                            );
+                                          },
+                                          memCacheWidth: 250,
+                                          memCacheHeight: 250,
+                                          maxHeightDiskCache: 250,
+                                          maxWidthDiskCache: 250,
+                                        ),
                             ),
                           ),
                           16.width,

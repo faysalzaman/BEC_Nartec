@@ -64,6 +64,7 @@ class _ScanEmployeeAttendanceHistoryScreenState
         bloc: employeeCubit,
         listener: (context, state) {
           if (state is EmployeeByIdSuccess) {
+            print("Image: ${state.employee.getProfilePictureUrl()}");
             AppNavigator.goToPage(
               context: context,
               screen:
