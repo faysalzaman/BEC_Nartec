@@ -1,5 +1,4 @@
 import 'package:bec_app/constant/app_colors.dart';
-import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/cubit/transaction/transaction_cubit.dart';
 import 'package:bec_app/cubit/transaction/transaction_state.dart';
 import 'package:bec_app/model/Employee/EmployeeModel.dart';
@@ -86,29 +85,36 @@ class _UserProfileTransactionHistoryScreenState
                           backgroundColor: AppColors.primary.withOpacity(0.1),
                           radius: 25,
                           child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "${AppUrls.baseUrl}${widget.employee.employee?.profilePicture?.toString().replaceAll(RegExp(r'^/+|/+$'), '').replaceAll("\\", "/")}",
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              errorWidget: (context, url, error) {
-                                return const Icon(
-                                  Icons.person,
-                                  size: 30,
-                                  color: AppColors.primary,
-                                );
-                              },
-                              memCacheWidth: 250,
-                              memCacheHeight: 250,
-                              maxHeightDiskCache: 250,
-                              maxWidthDiskCache: 250,
-                            ),
+                            child: widget.employee.getProfilePictureUrl() ==
+                                    null
+                                ? const Icon(
+                                    Icons.person,
+                                    size: 30,
+                                    color: AppColors.primary,
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl:
+                                        "${widget.employee.getProfilePictureUrl()}",
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) {
+                                      return const Icon(
+                                        Icons.person,
+                                        size: 30,
+                                        color: AppColors.primary,
+                                      );
+                                    },
+                                    memCacheWidth: 250,
+                                    memCacheHeight: 250,
+                                    maxHeightDiskCache: 250,
+                                    maxWidthDiskCache: 250,
+                                  ),
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -200,8 +206,9 @@ class _UserProfileTransactionHistoryScreenState
                     listener: (context, state) {
                       if (state is TransactionHistoryError) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("No Transaction Record"),
+                          SnackBar(
+                            content:
+                                Text(state.error.replaceAll("Exception:", "")),
                             backgroundColor: Colors.red,
                           ),
                         );

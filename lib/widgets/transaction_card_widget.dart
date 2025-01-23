@@ -32,13 +32,14 @@ class TransactionCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildRow(context, 'Employee Name:', trans.employee!.name),
-                  buildRow(context, 'Job Title:', trans.employee!.jobTitle),
-                  buildRow(context, 'Employee ID:', trans.employeeId),
-                  const SizedBox(height: 10),
-                  buildRow(context, 'Device ID:', trans.iMEI),
-                  buildRow(context, 'Date:', trans.date),
-                  buildRow(context, 'Meal Type:', trans.mealType),
+                  buildRow(
+                      context, 'Employee Name:', trans.employee!.name ?? ''),
+                  buildRow(
+                      context, 'Job Title:', trans.employee!.jobTitle ?? ''),
+                  buildRow(context, 'Employee ID:', trans.employeeId ?? ''),
+                  buildRow(context, 'Device ID:', trans.iMEI ?? ''),
+                  buildRow(context, 'Date:', trans.date ?? ''),
+                  buildRow(context, 'Meal Type:', trans.mealType ?? ''),
                 ],
               ),
             ),

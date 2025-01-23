@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:bec_app/constant/app_urls.dart';
+
 class Location {
   int? id;
   String? name;
@@ -180,5 +182,9 @@ class EmployeeModel {
       data['admin'] = admin!.toJson();
     }
     return data;
+  }
+
+  getProfilePictureUrl() {
+    return "${AppUrls.baseUrl}/${profilePicture?.replaceAll("\\", "/").replaceAll("//", "/")}";
   }
 }

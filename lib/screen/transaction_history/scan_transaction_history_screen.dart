@@ -78,6 +78,7 @@ class _ScanTransactionHistoryScreenState
         listener: (context, state) {
           print(state);
           if (state is EmployeeByIdSuccess) {
+            print("Image: ${state.employee.getProfilePictureUrl()}");
             AppNavigator.goToPage(
               context: context,
               screen: UserProfileTransactionHistoryScreen(

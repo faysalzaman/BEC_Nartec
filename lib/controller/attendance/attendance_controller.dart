@@ -31,7 +31,8 @@ class AttendanceController {
             "employeeId": id,
             "timestamp": date,
             "IMEI": deviceId,
-            "action": action
+            "action": action,
+            "adminId": adminId
           })
         : jsonEncode({
             "employeeId": id,

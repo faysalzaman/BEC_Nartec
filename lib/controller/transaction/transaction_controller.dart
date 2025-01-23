@@ -29,8 +29,6 @@ class TransactionController {
       "adminId": adminId,
     });
 
-    print(body);
-
     final response = await http.post(url, headers: headers, body: body);
 
     var data = json.decode(response.body);
