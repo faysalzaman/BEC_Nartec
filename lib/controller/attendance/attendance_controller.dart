@@ -16,6 +16,7 @@ class AttendanceController {
     String? deviceId = await AppPreferences.getImei();
 
     int? adminId = await AppPreferences.getUserId();
+    int? locationId = await AppPreferences.getScanLocation();
 
     final url = Uri.parse('${AppUrls.baseUrl}/api/attendance');
 
@@ -32,7 +33,8 @@ class AttendanceController {
             "timestamp": date,
             "IMEI": deviceId,
             "action": action,
-            "adminId": adminId
+            "adminId": adminId,
+            "locationId": locationId
           })
         : jsonEncode({
             "employeeId": id,
@@ -41,7 +43,8 @@ class AttendanceController {
             "action": action,
             "wps": wps,
             "costCode": costCode,
-            "adminId": adminId
+            "adminId": adminId,
+            "locationId": locationId
           });
 
     final response = await http.post(url, headers: headers, body: body);

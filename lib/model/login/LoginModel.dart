@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, non_constant_identifier_names
+// ignore_for_file: file_names
 
 class LoginModel {
   bool? success;
@@ -31,25 +31,29 @@ class AdminUser {
   String? email;
   String? userId;
   String? name;
-  int? is_super_admin;
-  int? locationId;
+  int? isSuperAdmin;
+  List<Locations>? locations;
 
-  AdminUser({
-    this.id,
-    this.email,
-    this.userId,
-    this.name,
-    this.is_super_admin,
-    this.locationId,
-  });
+  AdminUser(
+      {this.id,
+      this.email,
+      this.userId,
+      this.name,
+      this.isSuperAdmin,
+      this.locations});
 
   AdminUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
     userId = json['userId'];
     name = json['name'];
-    is_super_admin = json['is_super_admin'];
-    locationId = json['locationId'];
+    isSuperAdmin = json['is_super_admin'];
+    if (json['locations'] != null) {
+      locations = <Locations>[];
+      json['locations'].forEach((v) {
+        locations!.add(Locations.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -58,8 +62,29 @@ class AdminUser {
     data['email'] = email;
     data['userId'] = userId;
     data['name'] = name;
-    data['is_super_admin'] = is_super_admin;
-    data['locationId'] = locationId;
+    data['is_super_admin'] = isSuperAdmin;
+    if (locations != null) {
+      data['locations'] = locations!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Locations {
+  int? id;
+  String? name;
+
+  Locations({this.id, this.name});
+
+  Locations.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }

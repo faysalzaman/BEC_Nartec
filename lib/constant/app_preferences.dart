@@ -37,6 +37,12 @@ class AppPreferences {
     prefs.setString('imei', token);
   }
 
+  // set Scan Location
+  static Future<void> setScanLocation(int scanLocation) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('scanLocation', scanLocation);
+  }
+
   // Getters
 
   /*  Get user id  */
@@ -73,5 +79,11 @@ class AppPreferences {
   static Future<String?> getImei() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('imei');
+  }
+
+  // get Scan Location
+  static Future<int?> getScanLocation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('scanLocation');
   }
 }
