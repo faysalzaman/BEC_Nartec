@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bec_app/constant/app_urls.dart';
 import 'package:bec_app/cubit/attendance/attendance_cubit.dart';
 import 'package:bec_app/cubit/attendance/attendance_state.dart';
@@ -45,10 +47,6 @@ class _ScanEmployeeAttendanceScreenState
 
   @override
   void initState() {
-    print(widget.checkIn);
-    print(widget.costCode);
-    print(widget.wps);
-
     super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
@@ -128,17 +126,20 @@ class _ScanEmployeeAttendanceScreenState
                 setState(() {
                   isLoading = false;
                 });
-                toast(state.error
-                    .toString()
-                    .replaceAll("Exception:", "")
-                    .replaceAll("Exception", ""));
+                _showErrorDialog(
+                    context,
+                    state.error
+                        .toString()
+                        .replaceAll("Exception:", "")
+                        .replaceAll("Exception", ""));
               }
               if (state is AttendanceInSuccess) {
                 setState(() {
                   isLoading = false;
                   data = state.imei;
                 });
-                toast(state.imei.message?.replaceAll("Exception:", ""));
+                _showSuccessDialog(context,
+                    state.imei.message?.replaceAll("Exception:", "") ?? "");
               }
             },
           ),
@@ -424,6 +425,108 @@ class _ScanEmployeeAttendanceScreenState
               ),
             )
           ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
+
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 50,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Error",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showSuccessDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
+
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.green,
+                  size: 50,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  widget.checkIn
+                      ? "Check In Successfully"
+                      : "Check Out Successfully",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
