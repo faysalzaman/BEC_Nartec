@@ -23,7 +23,9 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
   @override
   void initState() {
     super.initState();
-    selectedLocation = widget.locations.first.name;
+    if (widget.locations.isNotEmpty) {
+      selectedLocation = widget.locations.first.name;
+    }
   }
 
   @override
@@ -130,12 +132,18 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
               ],
             ),
             child: FilledButton(
-              onPressed: selectedLocation == null
-                  ? null
-                  : () {
-                      AppNavigator.replaceTo(
-                          context: context, screen: const HomeScreen());
-                    },
+              onPressed: () {
+                if (selectedLocation != null) {
+                  AppPreferences.setScanLocation(widget.locations
+                      .firstWhere(
+                          (location) => location.name == selectedLocation)
+                      .id!);
+                } else {
+                  AppPreferences.setScanLocation(0);
+                }
+                AppNavigator.replaceTo(
+                    context: context, screen: const HomeScreen());
+              },
               style: FilledButton.styleFrom(
                 minimumSize: const Size(double.infinity, 56),
                 shape: RoundedRectangleBorder(

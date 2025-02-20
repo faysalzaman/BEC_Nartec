@@ -10,11 +10,14 @@ class AuthController {
     final url = Uri.parse('${AppUrls.baseUrl}/api/admin/login');
     final headers = <String, String>{'Content-Type': 'application/json'};
 
+    print(url);
+
     final body = json.encode({'userId': email, 'password': password});
 
     final response = await http.post(url, headers: headers, body: body);
 
     var data = LoginModel.fromJson(json.decode(response.body));
+
     print(data);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
